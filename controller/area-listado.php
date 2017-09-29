@@ -1,19 +1,19 @@
 <?php
-// Controlador que muestra el listado de usuarios en datatables
+// Controller que muestra el listado de las áreas del sistema
 require_once 'cargaTwig.php';
 
 session_start();
 if (isset($_SESSION["rol"])) {
     $rol = $_SESSION["rol"];
     if ($rol == 1) {
-        include "../model/usuario.php";
-        $usuario           = new Usuario();
-        $listadoDeUsuarios = $usuario->listarUsuarios();
-        // Cargo la vista y le paso el listado de los usuarios del sistema
-        echo $twig->render('usuario/listado.html.twig', array(
-            'pagina'            => ' - Listado de usuarios',
-            'rol'               => $rol,
-            'listadoDeUsuarios' => $listadoDeUsuarios,
+        include "../model/area.php";
+        $area           = new Area();
+        $listadoDeAreas = $area->listarAreas();
+        // Cargo la vista y le paso el listado de las áreas del sistema
+        echo $twig->render('area/listado.html.twig', array(
+            'pagina'         => ' - Listado de áreas',
+            'rol'            => $rol,
+            'listadoDeAreas' => $listadoDeAreas,
         ));
     } else {
         // Cargo la vista error permisos
