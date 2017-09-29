@@ -1,0 +1,97 @@
+{# Barra de navegación del sistema cuando el usuario está logueado #}
+<nav class="navbar navbar-inverse">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				<span class="icon-bar"></span> <span class="icon-bar"></span> <span	class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="../controller/index.php" title="Inicio"><span class="fa fa-home"></span> Inicio</a>
+		</div>
+		<div class="collapse navbar-collapse" id="myNavbar">
+			<ul class="nav navbar-nav">
+				{% if rol == 3 %}
+					{# Modulo pedidos usuario registrado #}
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Pedido"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Pedido<b class="caret"></b></a>
+					    <ul class="dropdown-menu">
+					        <li><a href="../controller/ingreso-nuevo.php" title="Nuevo pedido">Nuevo Pedido</a></li>
+					        <li><a href="../controller/ingreso-listado.php" title="Mis pedidos">Listado mis pedidos</a></li>
+					    </ul>
+					</li>
+				{% endif %}
+				{# Modulo ingresos/egresos #}
+				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Ingresos/egresos"><i class="fa fa-retweet" aria-hidden="true"></i> Ingresos/egresos<b class="caret"></b></a>
+				    <ul class="dropdown-menu">
+				        <li><a href="../controller/ingreso-nuevo.php" title="Nuevo ingreso">Nuevo ingreso</a></li>
+				        <li><a href="../controller/ingreso-listado.php" title="Listado de ingresos">Listado de ingresos</a></li>
+				        <li class="divider"></li>
+				        <li><a href="../controller/egreso-nuevo.php" title="Nuevo egreso">Nuevo egreso</a></li>
+				        <li><a href="../controller/egreso-listado.php" title="Listado de egresos">Listado de egresos</a></li>
+				    </ul>
+				</li>
+
+				{# Modulo de pedidos del administrador #}
+				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Pedidos"><i class="fa fa-bullhorn" aria-hidden="true"></i> Pedidos<b class="caret"></b></a>
+				    <ul class="dropdown-menu">
+				        <li><a href="../controller/reparacion-nueva.php" title="Nuevo pedido">Nuevo pedido</a></li>
+				        <li class="divider"></li>
+				        <li><a href="../controller/reparacion-listado.php" title="Pedidos reservados">Listado de pedidos reservados</a></li>
+				        <li><a href="../controller/reparacion-listado.php" title="Pedidos entregados">Listado de pedidos entregados</a></li>
+				        <li><a href="../controller/reparacion-listado.php" title="Pedidos cancelados">Listado de pedidos cancelados</a></li>
+				    </ul>
+				</li>
+
+				{# Modulo de reparaciones/tareas #}
+				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Reparaciones/tareas"><i class="fa fa-wrench" aria-hidden="true"></i> Reparaciones/tareas<b class="caret"></b></a>
+				    <ul class="dropdown-menu">
+				        <li><a href="../controller/reparacion-nueva.php" title="Nueva reparación">Nueva reparación/tarea</a></li>
+				        <li class="divider"></li>
+				        <li><a href="../controller/reparacion-listado.php" title="Reparaciones pendientes">Listado de reparaciones pendientes</a></li>
+				        <li><a href="../controller/reparacion-listado.php" title="Reparaciones en reparación">Listado de reparaciones en reparación</a></li>
+				        <li><a href="../controller/reparacion-listado.php" title="Reparaciones listas">Listado de reparaciones Listas</a></li>
+				        <li><a href="../controller/reparacion-listado.php" title="Reparaciones sin arreglo">Listado de reparaciones sin arreglo</a></li>
+				    </ul>
+				</li>
+						
+				{# Modulo configuraciones #}
+				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Configuraciones"><i class="fa fa-gears" aria-hidden="true"></i> Configuraciones<b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						{# Desplegable productos #}
+						<li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Productos"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Productos</a>
+							<ul class="dropdown-menu">
+								<li><a href="../controller/producto-nuevo.php" title="Nuevo producto">Nuevo producto</a></li>
+								<li><a href="../controller/producto-listado.php" title="Listado de productos">Listado de productos</a></li>
+								<li class="divider"></li>
+								<li><a href="../controller/producto-listado.php" title="Productos sin stock">Productos sin stock</a></li>
+							</ul>
+						</li>
+						{# Desplegable áreas #}
+						<li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Área"><i class="fa fa-sitemap" aria-hidden="true"></i> Áreas</a>
+							<ul class="dropdown-menu">
+								<li><a href="../controller/area-nueva.php" title="Nueva área">Nueva área</a></li>
+								<li><a href="../controller/area-listado.php" title="Listado de áreas">Listado de áreas</a></li>
+							</ul>
+						</li>
+						{# Desplegable usuarios #}
+						<li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Usuarios"><span class="fa fa-user"></span> Usuarios</a>
+							<ul class="dropdown-menu">
+								<li><a href="../controller/usuario-nuevo.php" title="Nuevo usuario">Nuevo usuario</a></li>
+								<li><a href="../controller/usuario-listado.php" title="Listado de usuarios">Listado de usuarios</a></li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+			</ul>
+
+			{# Modulo mi perfil #}
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="../controller/area-nueva.php" title="Notificaciones"><i class="fa fa-bell" aria-hidden="true"></i></a></li>
+				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" title="Mi Perfil"><span class="glyphicon glyphicon-option-vertical"></span> Perfil <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="../controller/mis-datos.php" title="Mis datos"><i class="fa fa-id-card" aria-hidden="true"></i> Mis datos</a></li>
+						<li><a href="../controller/logout.php" title="Salir"><i class="fa fa-power-off" aria-hidden="true"></i> Salir</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>

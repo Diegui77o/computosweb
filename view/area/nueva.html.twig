@@ -1,0 +1,64 @@
+{# Formulario utilizado para registrar nuevas áreas #}
+{% extends 'layout/sistema.html.twig' %}
+{% block contenido %}
+{# div necesario para que la vista se ajuste (no lleva cierre porque lo cierra la vista base) #}
+<div class="container marketing">
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading"><center><span class="fa fa-star" aria-hidden="true"></span> Nueva <b>área</b></center></div>
+      <div class="panel-body">
+        <form method="post" action="../controller/area-new.php">
+          {% if msjError == true %}
+          <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>¡Error!</strong> {{msj}}
+          </div>
+          {% elseif msjExito == true %}
+          <div class="alert alert-dismissible alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>¡Exito!</strong> {{msj}}
+          </div>
+          {% endif %}
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="control-label">Área *</label>
+              <input class="form-control" type="text" name="area" placeholder="Ingrese una área" data-validation="length" data-validation-length="3-45" data-validation-error-msg="El área debe contener entre [3-45 caracteres].">
+            </div>
+          </div>
+
+         
+          <div class="col-md-12">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <span class="help-block">Los campos con * son necesarios completarlos.</span>
+                <span class="help-block"><p class="text-danger">¡Por favor! verficar los datos antes de enviarlos.</p></span>
+                <button type="submit" class="btn btn-outline btn-primary">Enviar</button>
+              </div>
+            </div>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div><!-- div panel -->
+ </div>
+</div>
+{% endblock %}
+{% block plugins %}
+{# Plugin Form-validator #}
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+<script>
+  // Form-validator
+  $.validate({
+    lang : 'es',
+    modules : 'location, date, security, file',
+    onModulesLoaded : function() {
+      $('#country').suggestCountry();
+    }
+  });
+
+  // Restrict presentation length
+  $('#presentation').restrictLength($('#pres-max-length'));
+</script>
+{% endblock %}

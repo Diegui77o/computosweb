@@ -1,0 +1,138 @@
+{% extends 'layout/sistema.html.twig' %}
+{% block contenido %}
+{# div necesario para que la vista se ajuste (no lleva cierre porque lo cierra la vista base) #}
+<div class="container marketing">
+
+    <div class="panel panel-default">
+      <div class="panel-heading"><center><i class="fa fa-user-plus" aria-hidden="true"></i> Modificar <b>usuario</b></center></div>
+      <div class="panel-body">
+        <form method="post" action="../controller/usuario-edit.php">
+  		  {% if msjError == true %}
+  			<div class="alert alert-dismissible alert-danger">
+  				<button type="button" class="close" data-dismiss="alert">&times;</button>
+  				<strong>¡Error!</strong> {{msj}}
+  			</div>
+  		  {% elseif msjExito == true %}
+  			<div class="alert alert-dismissible alert-success">
+  				<button type="button" class="close" data-dismiss="alert">&times;</button>
+  				<strong>¡Exito!</strong> {{msj}}
+  			</div>
+  		  {% endif %}
+
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+	            <div class="form-group">
+	              <label class="control-label">Usuario *</label>
+	              <input class="form-control" type="text" name="usuario" placeholder="Ingrese un usuario" data-validation="length alphanumeric" data-validation-length="5-20" data-validation-error-msg="El usuario debe contener valores alfanuméricos [5-20 caracteres]." value="{{usuarioEncontrado.usuario}}">
+	            </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Contraseña *</label>
+                  <input class="form-control" type="password" name="pass_confirmation" data-validation="strength" data-validation-strength="1" maxlength="20" placeholder="Ingrese una contraseña">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Nombre *</label>
+                  <input class="form-control" type="text" name="name" placeholder="Ingrese su nombre" data-validation="length" data-validation-length="3-20" data-validation-error-msg="Su nombre debe contener entre [3-20 caracteres]." value="{{usuarioEncontrado.nombre}}">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Apellido *</label>
+                  <input class="form-control" type="text" name="lastname" placeholder="Ingrese su apellido" data-validation="length" data-validation-length="3-20" data-validation-error-msg="Su nombre debe contener entre [3-20 caracteres]." value="{{usuarioEncontrado.apellido}}">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Email *</label>
+                  <input class="form-control" type="text" name="email" placeholder="Ingrese email del trabajo o personal" data-validation="email" maxlength="45" value="{{usuarioEncontrado.email}}">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Teléfono *</label>
+                  <input class="form-control" type="text" name="telefono" placeholder="Ingrese teléfono del trabajo" data-validation="number" data-validation-allowing="range[1;9999999999]" value="{{usuarioEncontrado.telefono}}">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+	            <div class="form-group">
+	              <label class="control-label">Área *</label>
+      				  <select class="form-control" id="area" name="area" data-validation="required">
+      				  	{% for tuplaArea in listadoDeAreas %}
+                    {% if usuarioEncontrado.idarea == tuplaArea.id %}
+                      <option selected value="{{tuplaArea.id}}">{{tuplaArea.nombre}}</option>
+                    {% else %}
+      				  		  <option value="{{tuplaArea.id}}">{{tuplaArea.nombre}}</option>
+                    {% endif %}
+      				  	{% endfor %}
+      				  </select>
+	            </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Rol *</label>
+        				  <select class="form-control" id="rol" name="rol" data-validation="required">
+        				  	{% for tuplaRol in listadoDeRoles %}
+                      {% if usuarioEncontrado.idrol == tuplaRol.id %}
+        				  		  <option selected value="{{tuplaRol.id}}">{{tuplaRol.nombre}}</option>
+                      {% else %}
+                        <option value="{{tuplaRol.id}}">{{tuplaRol.nombre}}</option>
+                      {% endif %}
+        				  	{% endfor %}
+        				  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-12">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <span class="help-block">Los campos con * son necesarios completarlos.</span>
+                <span class="help-block"><p class="text-danger">¡Por favor! verficar los datos antes de enviarlos.</p></span>
+                <input type="hidden" name="id" value="{{usuarioEncontrado.id}}">
+                <button type="submit" class="btn btn-outline btn-primary">Enviar</button>
+              </div>
+            </div>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>{# div panel #}
+{% endblock %}
+{% block plugins %}
+{# Plugin Form-validator #}
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+<script>
+	// Form-validator
+	$.validate({
+		lang : 'es',
+		modules : 'location, date, security, file',
+		onModulesLoaded : function() {
+			$('#country').suggestCountry();
+		}
+	});
+
+	// Restrict presentation length
+	$('#presentation').restrictLength($('#pres-max-length'));
+</script>
+{% endblock %}

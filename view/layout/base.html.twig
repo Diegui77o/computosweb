@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    {# Required meta tags #}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <title>Cómputosweb {{pagina}}</title>
+    <link rel="icon" href="../public/img/icono.ico">
+    {# CSS de Bootstrap #}
+    <link href="../public/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    {# CSS de Computosweb #}
+    <link href="../public/css/computosweb.css" rel="stylesheet">
+    {# Font-awesome #}
+    <link rel="stylesheet" href="../public/plugins/font-awesome/css/font-awesome.min.css">
+    {% block head %}
+      {# Bloque para plugins en el head #}
+    {% endblock %}
+  </head>
+  <body>
+    {% if (rol == 1) or (rol == 2) or (rol == 3) %}
+      {{include('layout/nav-sistema.html.twig')}}
+    {% else %}
+      {{include('layout/nav-base.html.twig')}}
+    {% endif %}
+    {% block contenido %} {# Bloque contenido de la pagina #}
+    {# Main jumbotron for a primary marketing message or call to action #}
+    <div class="jumbotron">
+      <div class="container">
+        <h1 class="display-3">Hola!</h1>
+        <p>Cómputosweb es una página interactiva que pertenece al centro de cómputos de la Municipalidad de Tres Arroyos. Los usuarios registrados podrán realizar pedidos de productos y hacer un seguimiento de sus reparaciones. Esperamos que la experiencia sea de su agrado.</p>
+        {#<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>#}
+      </div>
+    </div>
+    {# Sección con registro, ayuda y aviso #}
+    <div class="container marketing">
+      <div class="row">
+        <hr>
+        <div class="col-md-4">
+          <h2><i class="fa fa-id-card-o" aria-hidden="true"></i> Registrate!</h2>
+          <p>¿No posee usuario? Lo invitamos a formar parte, es muy sencillo solo tiene que completar un formulario, posteriormente llamar al centro de cómputos para que lo habiliten y así podrá hacer pedidos, reparaciones/tareas.</p>
+          <p><a class="btn btn-outline-info" href="../controller/registrarse.php" role="button">Registrarse &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+          <h2><i class="fa fa-info-circle" aria-hidden="true"></i> Ayuda</h2>
+          <p>¿No sabe cómo realizar un pedido? ¿No sabe si hay stock del producto que quiere solicitar? En esta sección hay unos simples videos-tutoriales que muestran un ejemplo de cómo hacerlo.</p>
+          <p><a class="btn btn-outline-info" href="#" role="button">Ver &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+          <h2><i class="fa fa-hand-o-right" aria-hidden="true"></i> Aviso!</h2>
+          <p>A partir de la fecha <b class="text-primary">18/09/17</b> si no se registran pedidos por sistema, no se entregara el producto que se solicite sin excepción. Disculpe las molestias, ¡gracias!</p>
+          {#<p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>#}
+        </div>
+      </div>
+      {# Sección con targetas para nuestro equipo #}
+      <section id="team" class="bg-light-gray">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12 text-center">
+              <hr>
+              <h2 class="section-heading">Nuestro equipo</h2>
+              <hr>
+            </div>
+          </div>
+          {# Targeta Martín #}
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="team-member">
+                <center>
+                  <img src="../public/img/team/MC.jpg" class="img-responsive img-circle" alt="" height="140" width="140">
+                  <h4>Martín Carioni</h4>
+                  <p class="text-muted"><b class="text-info">Jefe Centro Cómputos</b><br>
+                  <i class="fa fa-envelope" aria-hidden="true"></i> mcarioni@tresarroyos.gov.ar<br>
+                  <i class="fa fa-phone" aria-hidden="true"></i> 2983-439(255)</p>
+                </center>
+              </div>
+            </div>{# Targeta Martín #}
+            {# Targeta Noelia #}
+            <div class="col-sm-3">
+              <div class="team-member">
+                <center>
+                  <img src="../public/img/team/NC.jpg" class="img-responsive img-circle" alt="" height="140" width="140">
+                  <h4>Noelia Carrizo</h4>
+                  <p class="text-muted"><b class="text-info">Analista Programadora</b><br>
+                  <i class="fa fa-envelope" aria-hidden="true"></i> ncarrizo@tresarroyos.gov.ar<br>
+                  <i class="fa fa-phone" aria-hidden="true"></i> 2983-439(253)</p>
+                </center>
+              </div>
+            </div>{# Targeta Noelia #}
+            {# Targeta Javier #}
+            <div class="col-sm-3">
+              <div class="team-member">
+                <center>
+                  <img src="../public/img/team/JG.jpg" class="img-responsive img-circle" alt="" height="140" width="140">
+                  <h4>Javier Gonzalez</h4>
+                  <p class="text-muted"><b class="text-info">Analista Programador</b><br>
+                  <i class="fa fa-envelope" aria-hidden="true"></i> gonzajav@tresarroyos.gov.ar<br>
+                  <i class="fa fa-phone" aria-hidden="true"></i> 2983-439(253)</p>
+                </center>
+              </div>
+            </div>{# Targeta Javier #}
+            {# Targeta Diego #}
+            <div class="col-sm-3">
+              <div class="team-member">
+                <center>
+                  <img src="../public/img/team/DG.jpg" class="img-responsive img-circle" alt="" height="140" width="140">
+                  <h4>Diego Gonzalez</h4>
+                  <p class="text-muted"><b class="text-info">Desarrollador</b><br>
+                  <i class="fa fa-envelope" aria-hidden="true"></i> diegog@tresarroyos.gov.ar<br>
+                  <i class="fa fa-phone" aria-hidden="true"></i> 2983-439(254)</p>
+                </center>
+              </div>
+            </div>{# Targeta Diego #}
+          </div>
+          <hr>
+          <p>Un centro de cómputo, centro de procesamiento de datos, centro de datos o data center es una entidad, oficina o departamento que se encarga del procesamiento de datos e información de forma sistematizada. El procesamiento se lleva a cabo con la utilización de ordenadores que están equipados con el hardware y el software necesarios para cumplir con dicha tarea.<br>
+          Cómputos es la unidad que se encarga del diseño y la implementación de sistemas dentro de una empresa. En este caso, se trata de un área cuya finalidad es facilitar el trabajo del resto de las dependencias.</p>
+        </div>
+      </section>
+      {% endblock %} {# Fin del bloque contenido #}
+      <hr>
+      <footer>
+        <a href="http://www.tresarroyos.gov.ar/" target="_blank"><img src="../public/img/logo2.png" class="img-responsive" id="logo2" width="198" height="69"></a>
+        <br>
+        <p>&copy; 2017 Computosweb v3.0.0. | Desarrolado por Gonzalez, Diego</p>
+        <p>Municipalidad de Tres Arroyos | Av. Rivadavia 1 | Tel: 02983 439255/254/253</p>
+        <p>computos@tresarroyos.gov.ar</p>
+      </footer>
+    </div> {# /container #}
+
+    {# Librería jQuery requerida por los plugins de JavaScript #}
+    <script src="http://code.jquery.com/jquery.js"></script>
+    {# Todos los plugins JavaScript de Bootstrap #}
+    <script src="../public/plugins/bootstrap/js/bootstrap.min.js"></script>
+    {% block plugins %}
+      {# Bloque para plugins JavaScript #}
+    {% endblock %}
+    {% block menu %}
+        
+    {% endblock %}
+  </body>
+</html>

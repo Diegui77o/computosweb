@@ -1,0 +1,130 @@
+{# Formulario utilizado para registrar nuevos usuarios #}
+{% extends 'layout/base.html.twig' %}
+{% block contenido %}
+{# div necesario para que la vista se ajuste (no lleva cierre porque lo cierra la vista base) #}
+<div class="container marketing">
+<div class="row">
+  <div class="col-md-4">
+    <h2>Registrate!</h2>
+    <p>Registrarse en nuestro sistema es muy sencillo, solo tiene que completar esté formulario. <br>Luego, deberá llamar al centro de cómputos (02983 439253/254/255) para que lo habiliten y así poder registrar sus pedidos y/o reparaciones/tareas.</p>
+    {#<p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>#}
+  </div>
+  <br>
+  <div class="col-md-8">
+    <div class="panel panel-default">
+      <div class="panel-heading"><center><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Formulario de registro</center></div>
+      <div class="panel-body">
+        <form method="post" action="../controller/registrarse-checkin.php">
+		  {% if msjError == true %}
+			<div class="alert alert-dismissible alert-danger">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<strong>¡Error!</strong> {{msj}}
+			</div>
+		  {% elseif msjExito == true %}
+			<div class="alert alert-dismissible alert-success">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<strong>¡Exito!</strong> {{msj}}
+			</div>
+		  {% endif %}
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="control-label">Usuario *</label>
+              <input class="form-control" type="text" name="usuario" placeholder="Ingrese un usuario" data-validation="length alphanumeric" data-validation-length="5-20" data-validation-error-msg="El usuario debe contener valores alfanuméricos [5-20 caracteres].">
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Contraseña *</label>
+                  <input class="form-control" type="password" name="pass_confirmation" data-validation="strength" data-validation-strength="1" maxlength="20" placeholder="Ingrese una contraseña">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Repetir Contraseña *</label>
+                  <input class="form-control" type="password" name="pass" data-validation="confirmation" maxlength="20" placeholder="Repita la contraseña">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Nombre *</label>
+                  <input class="form-control" type="text" name="name" placeholder="Ingrese su nombre" data-validation="length" data-validation-length="3-20" data-validation-error-msg="Su nombre debe contener entre [3-20 caracteres].">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Apellido *</label>
+                  <input class="form-control" type="text" name="lastname" placeholder="Ingrese su apellido" data-validation="length" data-validation-length="3-20" data-validation-error-msg="Su nombre debe contener entre [3-20 caracteres].">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Email *</label>
+                  <input class="form-control" type="text" name="email" placeholder="Ingrese email del trabajo o personal" data-validation="email" maxlength="45">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Teléfono *</label>
+                  <input class="form-control" type="text" name="telefono" placeholder="Ingrese teléfono del trabajo" data-validation="number" data-validation-allowing="range[1;9999999999]">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="control-label">Área *</label>
+			  <select class="form-control" id="area" name="area" data-validation="required">
+			  	{% for tuplaArea in listadoDeAreas %}
+			  		<option value="{{tuplaArea.id}}">{{tuplaArea.nombre}}</option>
+			  	{% endfor %}
+			  </select>
+            </div>
+          </div>
+          
+          <div class="col-md-12">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <span class="help-block">Los campos con * son necesarios completarlos.</span>
+                <span class="help-block"><p class="text-danger">¡Por favor! verficar los datos antes de enviarlos.</p></span>
+                <button type="submit" class="btn btn-outline btn-primary">Enviar</button>
+              </div>
+            </div>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div><!-- div panel -->
+ </div>
+</div>
+{% endblock %}
+{% block plugins %}
+{# Plugin Form-validator #}
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+<script>
+	// Form-validator
+	$.validate({
+		lang : 'es',
+		modules : 'location, date, security, file',
+		onModulesLoaded : function() {
+			$('#country').suggestCountry();
+		}
+	});
+
+	// Restrict presentation length
+	$('#presentation').restrictLength($('#pres-max-length'));
+</script>
+{% endblock %}

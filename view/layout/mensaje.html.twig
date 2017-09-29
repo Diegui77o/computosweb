@@ -1,0 +1,13 @@
+{# Vista utilizada para mostrar mensajes del sistema #}
+{% extends 'layout/base.html.twig' %}
+{% block contenido %}
+<div class="container marketing">
+<div class="panel {{tipoDePanel}}">
+  <div class="panel-heading">
+    <h3 class="panel-title"><center>Mensaje del sistema - Cómputosweb</center></h3>
+  </div>
+  <div class="panel-body">
+    {{msj}}
+  </div>
+</div>
+{% endblock %}
