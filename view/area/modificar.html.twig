@@ -6,9 +6,9 @@
 <div class="row">
   <div class="col-md-12">
     <div class="panel panel-default">
-      <div class="panel-heading"><center><span class="fa fa-star" aria-hidden="true"></span> Nueva <b>área</b></center></div>
+      <div class="panel-heading"><center><span class="fa fa-star" aria-hidden="true"></span> Modificar <b>área</b></center></div>
       <div class="panel-body">
-        <form method="post" action="../controller/area-new.php">
+        <form method="post" action="../controller/area-edit.php">
           {% if msjError == true %}
           <div class="alert alert-dismissible alert-danger">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -23,7 +23,7 @@
           <div class="col-md-12">
             <div class="form-group">
               <label class="control-label">Área *</label>
-              <input class="form-control" type="text" name="area" placeholder="Ingrese una área" data-validation="length" data-validation-length="3-45" data-validation-error-msg="El área debe contener entre [3-45 caracteres].">
+              <input class="form-control" type="text" name="area" placeholder="Ingrese una área" data-validation="length" data-validation-length="3-45" data-validation-error-msg="El área debe contener entre [3-45 caracteres]." value="{{areaEncontrada.nombre}}">
             </div>
           </div>
 
@@ -34,6 +34,7 @@
               <div class="col-md-6">
                 <span class="help-block">Los campos con * son necesarios completarlos.</span>
                 <span class="help-block"><p class="text-danger">¡Por favor! verficar los datos antes de enviarlos.</p></span>
+                <input type="hidden" name="id" value="{{areaEncontrada.id}}">
                 <button type="submit" class="btn btn-outline btn-primary">Enviar</button>
               </div>
             </div>

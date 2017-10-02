@@ -1,5 +1,4 @@
 <?php
-
 // Controller que realiza el alta de la nueva área
 require_once 'cargaTwig.php';
 
