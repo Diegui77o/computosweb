@@ -67,13 +67,15 @@ class Producto
         $consulta->execute();
     }
     // Modificar
-    public function modificarProducto($nombre, $marca, $descripcion, $id)
+    public function modificarProducto($nombre, $marca, $descripcion, $stock_minimo, $fecha_alta, $id)
     {
-        $consulta = $this->conexion->prepare("UPDATE producto SET nombre=?, marca=?, descripcion=? WHERE id=?");
+        $consulta = $this->conexion->prepare("UPDATE producto SET nombre=?, marca=?, descripcion=?, stock_minimo=?, fecha_alta=? WHERE id=?");
         $consulta->bindParam(1, $nombre);
         $consulta->bindParam(2, $marca);
         $consulta->bindParam(3, $descripcion);
-        $consulta->bindParam(4, $id);
+        $consulta->bindParam(4, $stock_minimo);
+        $consulta->bindParam(5, $fecha_alta);
+        $consulta->bindParam(6, $id);
         $consulta->execute();
     }
     // Listado
