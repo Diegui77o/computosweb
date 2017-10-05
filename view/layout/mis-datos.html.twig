@@ -1,0 +1,82 @@
+{# Vista utilizada para mostrar los datos del usuario #}
+{% extends 'layout/base.html.twig' %}
+{% block contenido %}
+{# div necesario para que la vista se ajuste (no lleva cierre porque lo cierra la vista base) #}
+<div class="container marketing">
+<div class="row">
+  <div class="col-md-4">
+    <h2>¡Atención!</h2>
+    <p>Le solicitamos que mantenga sus datos actualizados.</p>
+    <p>Cuando cambie su contraseña automaticamente saldra del sistema para que pueda volver a ingresar, por seguridad.</p>
+    <p>En el caso de olvidar su contraseña llamar al centro de cómputos para que se la reestablescan, no es necesario volver a registrarse.</p>
+    {#<p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>#}
+  </div>
+  <br>
+  <div class="col-md-8" id="tarjeta">
+    <div class="panel panel-default">
+      <div class="panel-heading"><center><i class="fa fa-id-card" aria-hidden="true"></i> Mis datos</center></div>
+      <div class="panel-body">
+
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+					<i class="fa fa-user" aria-hidden="true"></i> <strong class="text-primary">Apellido y nombre (usuario)</strong>
+					{% if rol == 1 %}
+						<p>{{usuarioEncontrado.apellido}}, {{usuarioEncontrado.nombre}} ({{usuarioEncontrado.usuario}})<br> <span class="label label-danger"><i class="fa fa-star" aria-hidden="true"></i> Administrador</span></p>
+					{% elseif rol == 2 %}
+						<p>{{usuarioEncontrado.apellido}}, {{usuarioEncontrado.nombre}} ({{usuarioEncontrado.usuario}})<br> <span class="label label-primary"><i class="fa fa-star" aria-hidden="true"></i> Gestor</span></p>
+					{% else %}
+						<p>{{usuarioEncontrado.apellido}}, {{usuarioEncontrado.nombre}} ({{usuarioEncontrado.usuario}})</p>
+					{% endif %}
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+					<i class="fa fa-phone" aria-hidden="true"></i> <strong class="text-primary">Teléfono</strong><p>{{usuarioEncontrado.telefono}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+			
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+					<i class="fa fa-envelope" aria-hidden="true"></i> <strong class="text-primary">Email</strong><p>{{usuarioEncontrado.email}}</p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+					<i class="fa fa-sitemap" aria-hidden="true"></i> <strong class="text-primary">Área</strong><p>{{usuarioEncontrado.nombreArea}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+			
+		  <form method="POST">
+			<br> <input name='id' type='hidden' value={{usuarioEncontrado.id}}>
+			<button formaction='{{BASE_PATH}}/controller/mis-datos-cambiar-pass.php' class="btn btn-primary btn-xs"><i class="fa fa-lock" aria-hidden="true"></i> Cambiar Contraseña</button>
+			<button formaction='{{BASE_PATH}}/controller/mis-datos-modificar.php' class="btn btn-info btn-xs"><i class="fa fa-user-circle" aria-hidden="true"></i> Modificar Datos</button>
+		  </form>
+      </div>
+    </div>{#-- div panel --#}
+ </div>
+</div>
+{% endblock %}
+{% block menu %}
+	{# Script para submenues #}
+	<script>
+		(function($){
+			$(document).ready(function(){
+				$('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
+					event.preventDefault(); 
+					event.stopPropagation(); 
+					$(this).parent().siblings().removeClass('open');
+					$(this).parent().toggleClass('open');
+				});
+			});
+		})(jQuery);
+	</script>
+{% endblock %}

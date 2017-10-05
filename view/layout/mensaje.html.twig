@@ -7,7 +7,22 @@
     <h3 class="panel-title"><center>Mensaje del sistema - Cómputosweb</center></h3>
   </div>
   <div class="panel-body">
-    {{msj}}
+    <center>{{msj}}</center>
   </div>
 </div>
+{% endblock %}
+{% block menu %}
+	{# Script para submenues #}
+	<script>
+		(function($){
+			$(document).ready(function(){
+				$('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
+					event.preventDefault(); 
+					event.stopPropagation(); 
+					$(this).parent().siblings().removeClass('open');
+					$(this).parent().toggleClass('open');
+				});
+			});
+		})(jQuery);
+	</script>
 {% endblock %}
