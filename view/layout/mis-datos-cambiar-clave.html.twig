@@ -1,0 +1,90 @@
+{# Vista utilizada para mostrar los datos del usuario #}
+{% extends 'layout/base.html.twig' %}
+{% block contenido %}
+{# div necesario para que la vista se ajuste (no lleva cierre porque lo cierra la vista base) #}
+<div class="container marketing">
+<div class="row">
+  <div class="col-md-4">
+    <h5>Consejos para una contraseña segura</h5>
+    <p>
+      <b class="text-primary">1.</b> Las contraseñas deben tener una longitud de entre siete y diez caracteres como mínimo.<br>
+      <b class="text-primary">2.</b> Se debe combinar el uso de mayúsculas y minúsculas, incluir algún número y un símbolo.<br>
+      <b class="text-primary">3.</b> Se recomienda no repetir contraseñas para diferentes servicios o, en todo caso, tener variantes con pequeños cambios.<br>
+      <b class="text-primary">4.</b> Evitar el uso de contraseñas que hagan referencia a datos fácilmente deducibles como son las fechas de cumpleaños.
+      <p><b class="text-primary">· Nota! </b>Luego de haber cambiado la contraseña, deberá volver ingresar al sistema por seguridad.</p>
+    </p>
+    {#<p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>#}
+  </div>
+  <br>
+  <div class="col-md-8" id="tarjeta">
+    <div class="panel panel-default">
+      <div class="panel-heading"><center><i class="fa fa-lock" aria-hidden="true"></i> Cambiar contraseña</center></div>
+      <div class="panel-body">
+        <form method="post" action="../controller/registrarse-checkin.php">
+          {% if msjError == true %}
+          <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>¡Error!</strong> {{msj}}
+          </div>
+          {% elseif msjExito == true %}
+          <div class="alert alert-dismissible alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>¡Exito!</strong> {{msj}}
+          </div>
+          {% endif %}
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="control-label">Contraseña anterior *</label>
+              <input class="form-control" type="text" name="usuario" placeholder="Ingrese un usuario" data-validation="length alphanumeric" data-validation-length="5-20" data-validation-error-msg="El usuario debe contener valores alfanuméricos [5-20 caracteres].">
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Nueva contraseña *</label>
+                  <input class="form-control" type="password" name="pass_confirmation" data-validation="strength" data-validation-strength="1" maxlength="20" placeholder="Ingrese una contraseña">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Repetir nueva contraseña *</label>
+                  <input class="form-control" type="password" name="pass" data-validation="confirmation" maxlength="20" placeholder="Repita la contraseña">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <span class="help-block">Los campos con * son necesarios completarlos.</span>
+                <span class="help-block"><p class="text-danger">¡Por favor! verficar los datos antes de enviarlos.</p></span>
+                <button type="submit" class="btn btn-outline btn-primary">Enviar</button>
+              </div>
+            </div>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>{#-- div panel --#}
+  </div>
+</div>
+{% endblock %}
+{% block menu %}
+	{# Script para submenues #}
+	<script>
+		(function($){
+			$(document).ready(function(){
+				$('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
+					event.preventDefault(); 
+					event.stopPropagation(); 
+					$(this).parent().siblings().removeClass('open');
+					$(this).parent().toggleClass('open');
+				});
+			});
+		})(jQuery);
+	</script>
+{% endblock %}
