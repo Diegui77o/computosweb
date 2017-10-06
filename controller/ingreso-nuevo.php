@@ -1,20 +1,24 @@
 <?php
-// Controlador que muestra un formulario para poder cambiar la contraseña del usuario
+
+// Controlador que muestra un formulario para cargar un ingreso al sistema
 require_once 'cargaTwig.php';
 
 session_start();
 if (isset($_SESSION["rol"])) {
     $rol = $_SESSION["rol"];
-    if (($rol == 1) or ($rol == 2) or ($rol == 3)) {
-        $id = $_POST["id"];
-        include '../model/usuario.php';
-        $usuario           = new Usuario();
-        $usuarioEncontrado = $usuario->buscarUsuario($id);
+    if (($rol == 1) or ($rol == 2)) {
+        // Cargo listado de productos
+        include "../model/producto.php";
+        $producto           = new Producto();
+        $listadoDeProductos = $producto->listarProductos();
+        // Fecha actual
+        $diaActual = date("d-m-Y");
         // Cargo la vista
-        echo $twig->render('layout/mis-datos-cambiar-clave.html.twig', array(
-            'pagina'            => ' - Cambiar contraseña',
-            'rol'               => $rol,
-            'usuarioEncontrado' => $usuarioEncontrado,
+        echo $twig->render('ingreso/nuevo.html.twig', array(
+            'pagina'             => ' - Nuevo ingreso',
+            'rol'                => $rol,
+            'diaActual'          => $diaActual,
+            'listadoDeProductos' => $listadoDeProductos,
         ));
     } else {
         // Cargo la vista error permisos

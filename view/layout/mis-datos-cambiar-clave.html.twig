@@ -1,4 +1,4 @@
-{# Vista utilizada para mostrar los datos del usuario #}
+{# Vista utilizada para cambiar la contraseña del usuario #}
 {% extends 'layout/base.html.twig' %}
 {% block contenido %}
 {# div necesario para que la vista se ajuste (no lleva cierre porque lo cierra la vista base) #}
@@ -8,7 +8,7 @@
     <h5>Consejos para una contraseña segura</h5>
     <p>
       <b class="text-primary">1.</b> Las contraseñas deben tener una longitud de entre siete y diez caracteres como mínimo.<br>
-      <b class="text-primary">2.</b> Se debe combinar el uso de mayúsculas y minúsculas, incluir algún número y un símbolo.<br>
+      <b class="text-primary">2.</b> Se debe combinar el uso de mayúsculas y minúsculas, incluir algún número o símbolo.<br>
       <b class="text-primary">3.</b> Se recomienda no repetir contraseñas para diferentes servicios o, en todo caso, tener variantes con pequeños cambios.<br>
       <b class="text-primary">4.</b> Evitar el uso de contraseñas que hagan referencia a datos fácilmente deducibles como son las fechas de cumpleaños.
       <p><b class="text-primary">· Nota! </b>Luego de haber cambiado la contraseña, deberá volver ingresar al sistema por seguridad.</p>
@@ -20,7 +20,7 @@
     <div class="panel panel-default">
       <div class="panel-heading"><center><i class="fa fa-lock" aria-hidden="true"></i> Cambiar contraseña</center></div>
       <div class="panel-body">
-        <form method="post" action="../controller/registrarse-checkin.php">
+        <form method="post" action="../controller/mis-datos-change-pass.php">
           {% if msjError == true %}
           <div class="alert alert-dismissible alert-danger">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -35,7 +35,7 @@
           <div class="col-md-12">
             <div class="form-group">
               <label class="control-label">Contraseña anterior *</label>
-              <input class="form-control" type="text" name="usuario" placeholder="Ingrese un usuario" data-validation="length alphanumeric" data-validation-length="5-20" data-validation-error-msg="El usuario debe contener valores alfanuméricos [5-20 caracteres].">
+              <input class="form-control" type="password" name="pass_anterior" data-validation="strength" data-validation-strength="1" maxlength="20" placeholder="Ingrese contraseña anterior">
             </div>
           </div>
 
@@ -62,6 +62,7 @@
               <div class="col-md-6">
                 <span class="help-block">Los campos con * son necesarios completarlos.</span>
                 <span class="help-block"><p class="text-danger">¡Por favor! verficar los datos antes de enviarlos.</p></span>
+                <input type="hidden" name="id" value="{{usuarioEncontrado.id}}">
                 <button type="submit" class="btn btn-outline btn-primary">Enviar</button>
               </div>
             </div>
@@ -87,4 +88,21 @@
 			});
 		})(jQuery);
 	</script>
+{% endblock %}
+{% block plugins %}
+{# Plugin Form-validator #}
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+<script>
+  // Form-validator
+  $.validate({
+    lang : 'es',
+    modules : 'location, date, security, file',
+    onModulesLoaded : function() {
+      $('#country').suggestCountry();
+    }
+  });
+
+  // Restrict presentation length
+  $('#presentation').restrictLength($('#pres-max-length'));
+</script>
 {% endblock %}

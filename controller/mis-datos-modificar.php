@@ -1,5 +1,5 @@
 <?php
-// Controlador que muestra un formulario para poder cambiar la contraseña del usuario
+// Controlador que muestra un formulario para modificar los datos del usuario
 require_once 'cargaTwig.php';
 
 session_start();
@@ -10,11 +10,16 @@ if (isset($_SESSION["rol"])) {
         include '../model/usuario.php';
         $usuario           = new Usuario();
         $usuarioEncontrado = $usuario->buscarUsuario($id);
+        // Listado de areas
+        include '../model/area.php';
+        $area           = new Area();
+        $listadoDeAreas = $area->listarAreas();
         // Cargo la vista
-        echo $twig->render('layout/mis-datos-cambiar-clave.html.twig', array(
-            'pagina'            => ' - Cambiar contraseña',
+        echo $twig->render('layout/mis-datos-modificar.html.twig', array(
+            'pagina'            => ' - Mis datos modificar',
             'rol'               => $rol,
             'usuarioEncontrado' => $usuarioEncontrado,
+            'listadoDeAreas'    => $listadoDeAreas,
         ));
     } else {
         // Cargo la vista error permisos

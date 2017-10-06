@@ -16,24 +16,35 @@
     <div class="panel panel-default">
       <div class="panel-heading"><center><i class="fa fa-id-card" aria-hidden="true"></i> Mis datos</center></div>
       <div class="panel-body">
+          {% if msjError == true %}
+          <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>¡Error!</strong> {{msj}}
+          </div>
+          {% elseif msjExito == true %}
+          <div class="alert alert-dismissible alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>¡Exito!</strong> {{msj}}
+          </div>
+          {% endif %}
 
           <div class="col-md-12">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-					<i class="fa fa-user" aria-hidden="true"></i> <strong class="text-primary">Apellido y nombre (usuario)</strong>
-					{% if rol == 1 %}
-						<p>{{usuarioEncontrado.apellido}}, {{usuarioEncontrado.nombre}} ({{usuarioEncontrado.usuario}})<br> <span class="label label-danger"><i class="fa fa-star" aria-hidden="true"></i> Administrador</span></p>
-					{% elseif rol == 2 %}
-						<p>{{usuarioEncontrado.apellido}}, {{usuarioEncontrado.nombre}} ({{usuarioEncontrado.usuario}})<br> <span class="label label-primary"><i class="fa fa-star" aria-hidden="true"></i> Gestor</span></p>
-					{% else %}
-						<p>{{usuarioEncontrado.apellido}}, {{usuarioEncontrado.nombre}} ({{usuarioEncontrado.usuario}})</p>
-					{% endif %}
+        					<i class="fa fa-user" aria-hidden="true"></i> <strong class="text-primary">Apellido y nombre (usuario)</strong>
+        					{% if rol == 1 %}
+        						<p>{{usuarioEncontrado.apellido}}, {{usuarioEncontrado.nombre}} ({{usuarioEncontrado.usuario}})<br> <span class="label label-danger"><i class="fa fa-star" aria-hidden="true"></i> Administrador</span></p>
+        					{% elseif rol == 2 %}
+        						<p>{{usuarioEncontrado.apellido}}, {{usuarioEncontrado.nombre}} ({{usuarioEncontrado.usuario}})<br> <span class="label label-primary"><i class="fa fa-star" aria-hidden="true"></i> Gestor</span></p>
+        					{% else %}
+        						<p>{{usuarioEncontrado.apellido}}, {{usuarioEncontrado.nombre}} ({{usuarioEncontrado.usuario}})</p>
+        					{% endif %}
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-					<i class="fa fa-phone" aria-hidden="true"></i> <strong class="text-primary">Teléfono</strong><p>{{usuarioEncontrado.telefono}}</p>
+					        <i class="fa fa-phone" aria-hidden="true"></i> <strong class="text-primary">Teléfono</strong><p>{{usuarioEncontrado.telefono}}</p>
                 </div>
               </div>
             </div>

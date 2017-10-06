@@ -34,6 +34,11 @@
                      <button type="button" class="close" data-dismiss="alert">&times;</button>
                      <strong>¡Error!</strong> {{msj}}
                    </div>
+                 {% elseif msjExito == true %}
+                   <div class="alert alert-dismissible alert-success">
+                     <button type="button" class="close" data-dismiss="alert">&times;</button>
+                     <strong>¡Exito!</strong> {{msj}}
+                   </div>
                  {% endif %}
                  <form class="form" role="form" method="post" action="../controller/login.php" accept-charset="UTF-8" id="login-nav">
                     <div class="form-group">

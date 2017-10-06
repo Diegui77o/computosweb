@@ -1,20 +1,19 @@
 <?php
-// Controlador que muestra un formulario para poder cambiar la contraseña del usuario
+// Controlador que muestra el listado de productos sin stock del sistema
 require_once 'cargaTwig.php';
 
 session_start();
 if (isset($_SESSION["rol"])) {
     $rol = $_SESSION["rol"];
-    if (($rol == 1) or ($rol == 2) or ($rol == 3)) {
-        $id = $_POST["id"];
-        include '../model/usuario.php';
-        $usuario           = new Usuario();
-        $usuarioEncontrado = $usuario->buscarUsuario($id);
+    if (($rol == 1) or ($rol == 2)) {
+        include "../model/producto.php";
+        $producto           = new Producto();
+        $listadoDeProductos = $producto->listarProductosSinStock();
         // Cargo la vista
-        echo $twig->render('layout/mis-datos-cambiar-clave.html.twig', array(
-            'pagina'            => ' - Cambiar contraseña',
-            'rol'               => $rol,
-            'usuarioEncontrado' => $usuarioEncontrado,
+        echo $twig->render('producto/listado.html.twig', array(
+            'pagina'             => ' - Listado de productos',
+            'rol'                => $rol,
+            'listadoDeProductos' => $listadoDeProductos,
         ));
     } else {
         // Cargo la vista error permisos
