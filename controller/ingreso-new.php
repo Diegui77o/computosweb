@@ -30,6 +30,8 @@ if (isset($_SESSION["rol"])) {
                 $listadoDeProductos = $productoActualizar->listarProductos();
                 // Fecha actual
                 $diaActual = date("d-m-Y");
+                // Actualizo la fecha_actualizado del producto
+                $productoActualizar->ultimaActualizacion($fecha_alta, $producto);
                 // Cargo la vista
                 echo $twig->render('ingreso/nuevo.html.twig', array(
                     'pagina'             => ' - Nuevo ingreso',

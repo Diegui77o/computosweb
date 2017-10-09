@@ -110,6 +110,14 @@ class Producto
         $consulta->bindParam(2, $id);
         $consulta->execute();
     }
+    // Actualizar fecha_actualizado de un producto
+    public function ultimaActualizacion($fecha_actualizado, $id)
+    {
+        $consulta = $this->conexion->prepare("UPDATE producto SET fecha_actualizado=? WHERE id=?");
+        $consulta->bindParam(1, $fecha_actualizado);
+        $consulta->bindParam(2, $id);
+        $consulta->execute();
+    }
     // Consulta para reportes
     // Listado de productos para el reporte
     public function reporteListadoDeProductos()
