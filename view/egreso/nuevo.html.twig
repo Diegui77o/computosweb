@@ -1,0 +1,142 @@
+{% extends 'layout/sistema.html.twig' %}
+{% block head %}
+  {# Plugin datepicker #}
+  <link rel="stylesheet" type="text/css" href="../public/datepicker/jquery-ui.min.css">
+{% endblock %}
+{% block contenido %}
+{# div necesario para que la vista se ajuste (no lleva cierre porque lo cierra la vista base) #}
+<div class="container marketing">
+
+    <div class="panel panel-default">
+      <div class="panel-heading"><center><i class="fa fa-reply" aria-hidden="true"></i> Nuevo <b>egreso</b></center></div>
+      <div class="panel-body">
+        <form method="post" action="../controller/egreso-new.php">
+        {% if msjError == true %}
+        <div class="alert alert-dismissible alert-danger">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <strong>¡Error!</strong> {{msj}}
+        </div>
+        {% elseif msjExito == true %}
+        <div class="alert alert-dismissible alert-success">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <strong>¡Exito!</strong> {{msj}}
+        </div>
+        {% endif %}
+
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label">Producto (marca) *</label>
+            <select class="form-control" id="producto" name="producto" data-validation="required">
+              {% for tuplaProducto in listadoDeProductos %}
+                <option value="{{tuplaProducto.id}}">{{tuplaProducto.nombre}} ({{tuplaProducto.marca}})</option>
+              {% endfor %}
+            </select>
+          </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Cantidad *</label>
+              <input class="form-control" type="text" name="cantidad" id="cantidad" data-validation="number" data-validation-allowing="range[1;999999]" placeholder="Ingrese cantidad del ingreso">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Área *</label>
+              <select class="form-control" id="area" name="area" data-validation="required">
+                {% for tuplaArea in listadoDeAreas %}
+                  <option value="{{tuplaArea.id}}">{{tuplaArea.nombre}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Fecha alta *</label>
+              <input class="form-control" type="text" name="fecha_alta" id="fecha_alta" data-validation="birthdate" data-validation-format="dd-mm-yyyy" placeholder="Ingrese fecha alta del producto" data-validation-help="Formato dd-mm-yyyy" value="{{diaActual}}">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <div class="form-group">
+          <label class="control-label">Descripción * (<span id="des-max-length">255</span> caracteres restantes)</label>
+          <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Ingrese una breve descripción del ingreso." row="6" maxlength="255" data-validation="length required" data-validation-length="1-255" data-validation-error-msg="La descripción debe contener [1-255 caracteres]."></textarea>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-6">
+            <span class="help-block">Los campos con * son necesarios completarlos.</span>
+            <span class="help-block"><p class="text-danger">¡Por favor! verficar los datos antes de enviarlos.</p></span>
+            <button type="submit" class="btn btn-outline btn-primary">Enviar</button>
+          </div>
+        </div>
+      </div>
+      </div>
+    </form>
+  </div>
+</div>{# div panel #}
+{% endblock %}
+{% block plugins %}
+{# Plugin Form-validator #}
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+{# Plugin datepicker #}
+<script type="text/javascript" src="../public/datepicker/js/jquery-ui.min.js"></script>
+<script>
+  // Form-validator
+  $.validate({
+    lang : 'es',
+    modules : 'location, date, security, file',
+    onModulesLoaded : function() {
+      $('#country').suggestCountry();
+    }
+  });
+
+  // Restringe la longitud de la descripción
+  $('#descripcion').restrictLength($('#des-max-length'));
+</script>
+<script>
+  // Datepicker
+  jQuery.datepicker.regional['es'] = {
+    closeText : 'Cerrar',
+    prevText : '<- Ant',
+        nextText: 'Sig ->',
+    currentText : 'Hoy',
+    changeMonth: true,
+    changeYear: true,
+    yearRange:"-10y:+10y",
+    monthNames : [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre',
+        'Diciembre' ],
+    monthNamesShort : [ 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul',
+        'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ],
+    dayNames : [ 'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves',
+        'Viernes', 'Sábado' ],
+    dayNamesShort : [ 'Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb' ],
+    dayNamesMin : [ 'Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá' ],
+    weekHeader : 'Sm',
+    dateFormat : 'dd/mm/yy',
+    firstDay : 1,
+    isRTL : false,
+    showMonthAfterYear : false,
+    yearSuffix : ''
+  };
+  $.datepicker.setDefaults($.datepicker.regional['es']);
+
+  $("#fecha_alta").datepicker({
+    dateFormat : 'dd-mm-yy',
+    showAnim : 'show',
+    showButtonPanel : true
+  }).val();
+</script>
+{% endblock %}

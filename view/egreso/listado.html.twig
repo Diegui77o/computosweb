@@ -1,0 +1,142 @@
+{% extends 'layout/sistema.html.twig' %}
+{% block head %}
+    {# DataTables CSS #}
+    <link href="../public/plugins/data-tables/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+    {# DataTables Responsive CSS #}
+    <link href="../public/plugins/data-tables/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+{% endblock %}
+{% block contenido %}
+
+<div class="col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-heading"><center><i class="fa fa-shopping-cart" aria-hidden="true"></i> Listado de <b>egresos</b></center></div>
+        {# /.panel-heading #}
+        <div class="panel-body">
+			{% if msjError == true %}
+				<div class="alert alert-dismissible alert-danger">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<strong>¡Error!</strong> {{msj}}
+				</div>
+			{% elseif msjExito == true %}
+				<div class="alert alert-dismissible alert-success">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<strong>¡Exito!</strong> {{msj}}
+				</div>
+			{% endif %}
+
+            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                <thead>
+                    <tr>
+                    	<th>Producto (Marca)</th>
+                        <th>Cantidad</th>
+                        <th>Área</th>
+                        <th>Fecha</th>
+                        <th>Descripción</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                	{% for tuplaEgreso in listadoDeEgresos %}
+                    <tr class="odd gradeX">
+                        <td>{{tuplaEgreso.nombreProducto}} ({{tuplaEgreso.marcaProducto}})</td>
+                        <td>{{tuplaEgreso.cantidad}}</td>
+                        <td>{{tuplaEgreso.nombreArea}}</td>
+                        <td>{{tuplaEgreso.fecha|date("Y/m/d")}}</td>
+                        <td>{{tuplaEgreso.descripcion[0:50]}} ...</td>
+                        <td><center>
+							<form method="POST">
+								<input type="hidden" name="id" value="{{tuplaEgreso.id}}">
+								{# Trigger the modal with a button #}
+								<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal{{tuplaEgreso.id}}" title="Ver"><i class="fa fa-eye" aria-hidden="true"></i></button>
+
+								{# Modal #}
+								<div id="myModal{{tuplaEgreso.id}}" class="modal fade" role="dialog">
+								  <div class="modal-dialog">
+
+								    {# Modal content #}
+								    <div class="modal-content">
+								      <div class="modal-header">
+								        <button type="button" class="close" data-dismiss="modal" >&times;</button>
+								        <h4 class="modal-title text-primary">{{tuplaEgreso.nombreProducto}} ({{tuplaEgreso.marcaProducto}})</h4>
+								      </div>
+								    <div class="modal-body">
+								        <div class="col-md-12">
+								          <div class="row">
+								            <div class="col-md-4">
+								              <div class="form-group">
+												<i class="fa fa-cubes" aria-hidden="true"></i> <strong class="text-primary">Cantidad</strong><p>{{tuplaEgreso.cantidad}}</p>
+								              </div>
+								            </div>
+								            <div class="col-md-4">
+								              <div class="form-group">
+												<i class="fa fa-sitemap" aria-hidden="true"></i> <strong class="text-primary">Área</strong><p>{{tuplaEgreso.nombreArea}}</p>
+								              </div>
+								            </div>
+								            <div class="col-md-4">
+								              <div class="form-group">
+												<i class="fa fa-calendar" aria-hidden="true"></i> <strong class="text-primary">Fecha</strong><p>{{tuplaEgreso.fecha|date("d/m/Y")}}</p>
+								              </div>
+								            </div>
+								          </div>
+								        </div>
+
+								        <div class="col-md-12">
+								          <div class="form-group">
+											<i class="fa fa-commenting" aria-hidden="true"></i> <strong class="text-primary">Descripción</strong><p>{{tuplaEgreso.descripcion}}</p>
+								          </div>
+								        </div>
+
+								      </div>
+								      <div class="modal-footer">
+								        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+								      </div>
+								    </div>
+
+								  </div>
+								</div>{# Modal #}
+								<button formaction="../controller/egreso-delete.php" onclick="return confirm('¿Seguro desea eliminar el egreso?')" class="btn btn-danger btn-xs" title="Eliminar"><i class="fa fa-trash" aria-hidden="true"></i></button>
+							</form></center>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+        {# /.panel-body #}
+    </div>
+    {# /.panel #}
+</div>
+{# div necesario para que la vista se ajuste (no lleva cierre porque lo cierra la vista base)#}
+<div class="container marketing">
+{% endblock %}
+{% block plugins %}
+	{# DataTables JavaScript #}
+	<script src="../public/plugins/data-tables/datatables/js/jquery.dataTables.min.js"></script>
+	<script src="../public/plugins/data-tables/datatables-plugins/dataTables.bootstrap.min.js"></script>
+	<script src="../public/plugins/data-tables/datatables-responsive/dataTables.responsive.js"></script>
+	{# Script necesario para datatables (responsive, traducción entre otras cosas) #}
+	<script>
+	$(document).ready(function() {
+	    $('#dataTables-example').DataTable({
+	        responsive: true,
+			"pageLength" : 10,
+			"order" : [ [ 3, "desc" ] ],
+			"language" : {
+				"lengthMenu" : "Mostrar _MENU_ registros por página",
+				"info" : "Mostrando página _PAGE_ de _PAGES_",
+				"infoEmpty" : "No se observan registros",
+				"emptyTable" : "No se encuentran resultados",
+				"zeroRecords" : "Sin resultados para mostrar",
+				"infoFiltered" : "(filtrada de _MAX_ registros)",
+				"search" : "Buscar: ",
+				"paginate" : {
+					"next" : "Siguiente",
+					"previous" : "Anterior"
+				}
+			}
+
+	    });
+	});
+	</script>
+{% endblock %}
