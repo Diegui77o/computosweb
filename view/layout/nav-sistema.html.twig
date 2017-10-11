@@ -43,19 +43,25 @@
 				{% endif %}
 
 				{# Modulo de reparaciones/tareas #}
-				{% if rol == 1 %}
+				
 				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Reparaciones/tareas"><i class="fa fa-wrench" aria-hidden="true"></i> Reparaciones/tareas<b class="caret"></b></a>
 				    <ul class="dropdown-menu">
-				        <li><a href="../controller/reparacion-nueva.php" title="Nueva reparación">Nueva reparación/tarea</a></li>
-				        <li class="divider"></li>
-				        <li><a href="../controller/reparacion-listado.php" title="Reparaciones pendientes">Listado de reparaciones pendientes</a></li>
-				        <li><a href="../controller/reparacion-listado.php" title="Reparaciones en reparación">Listado de reparaciones en reparación</a></li>
-				        <li><a href="../controller/reparacion-listado.php" title="Reparaciones listas">Listado de reparaciones Listas</a></li>
-				        <li><a href="../controller/reparacion-listado.php" title="Reparaciones sin arreglo">Listado de reparaciones sin arreglo</a></li>
+				        <li><a href="../controller/reparacion-tarea-nueva.php" title="Nueva reparación/tarea">Nueva reparación/tarea</a></li>
+				        {% if rol == 1 %}
+					        <li class="divider"></li>
+					        <li><a href="../controller/reparacion-listado.php" title="Reparaciones pendientes">Listado de reparaciones pendientes</a></li>
+					        <li><a href="../controller/reparacion-listado.php" title="Reparaciones en reparación">Listado de reparaciones en reparación</a></li>
+					        <li><a href="../controller/reparacion-listado.php" title="Reparaciones listas">Listado de reparaciones Listas</a></li>
+					        <li><a href="../controller/reparacion-listado.php" title="Reparaciones sin arreglo">Listado de reparaciones sin arreglo</a></li>
+				        {% else %}
+					        <li class="divider"></li>
+					        <li><a href="../controller/listado-mis-reparaciones-tareas.php" title="Mis reparaciones/tareas">Listado de mis reparaciones/tareas</a></li>
+				        {% endif %}
 				    </ul>
 				</li>
 				
 				{# Modulo configuraciones #}
+				{% if rol == 1 %}
 				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Configuraciones"><i class="fa fa-gears" aria-hidden="true"></i> Configuraciones<b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						{# Desplegable productos #}

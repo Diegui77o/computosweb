@@ -67,7 +67,7 @@ class Usuario
                                             FROM usuario u
                                             INNER JOIN rol r ON u.idrol=r.id
                                             INNER JOIN area a ON u.idarea=a.id
-                                            ORDER BY u.usuario, u.nombre, u.apellido");
+                                            ORDER BY a.nombre, u.nombre, u.apellido");
         $consulta->execute();
         $datos = $consulta->fetchAll();
         return $datos;

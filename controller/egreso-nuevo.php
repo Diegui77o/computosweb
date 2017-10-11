@@ -37,7 +37,6 @@ if (isset($_SESSION["rol"])) {
     // Cargo la vista error de sesion
     echo $twig->render('layout/mensaje.html.twig', array(
         'pagina'      => ' - Mensaje del sistema',
-        'rol'         => $rol,
         'tipoDePanel' => 'panel-danger',
         'msj'         => 'Error! No posee sesion activa, por favor vuelva a ingresar al sistema.',
     ));

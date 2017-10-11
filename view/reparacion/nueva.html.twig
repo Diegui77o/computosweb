@@ -1,0 +1,103 @@
+{# Vista utilizada para cambiar la contraseña del usuario #}
+{% extends 'layout/base.html.twig' %}
+{% block contenido %}
+{# div necesario para que la vista se ajuste (no lleva cierre porque lo cierra la vista base) #}
+<div class="container marketing">
+<div class="row">
+  <div class="col-md-4">
+    <h3>Reparación o tarea</h3>
+    {% if ((rol == 2) or (rol == 3)) %}
+      <p>
+        Ingrese una breve descripción de la reparación o tarea siendo lo más específico posible. En caso de ser una reparación de su CPU podrá consultar el estado de la reparación del mismo desde otra PC, tablet o smartphone ingresando en <a href="../controller/listado-mis-reparaciones-tareas.php"> Mis reparaciones/tareas</a> con el fin de poder brindarle un seguimiento del misma.
+      </p>
+    {% else %}
+      <p>Ingrese una breve descripción de la reparación o tarea siendo lo más específico posible.</p>
+      <a href="../controller/listado-reparaciones-tareas-pendientes.php">Listado de reparaciones pendientes</a>
+    {% endif %}
+    {#<p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>#}
+  </div>
+  <br>
+  <div class="col-md-8" id="tarjeta">
+    <div class="panel panel-default">
+      <div class="panel-heading"><center><i class="fa fa-wrench" aria-hidden="true"></i> Nueva <b>Reparación/tarea</b></center></div>
+      <div class="panel-body">
+        <form method="post" action="../controller/reparacion-tarea-new.php">
+          {% if msjError == true %}
+          <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>¡Error!</strong> {{msj}}
+          </div>
+          {% elseif msjExito == true %}
+          <div class="alert alert-dismissible alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>¡Exito!</strong> {{msj}}
+          </div>
+          {% endif %}
+          <div class="col-md-12">
+            {# Si el usuario es administrador muestra el listado de usuarios del sistema #}
+            {% if rol == 1 %}
+            <div class="form-group">
+              <label class="control-label">Usuario *</label>
+              <select class="form-control" id="usuario" name="usuario" data-validation="required">
+                {% for tuplaUsuario in listadoDeUsuarios %}
+                  <option value="{{tuplaUsuario.id}}">{{tuplaUsuario.nombreArea}} - {{tuplaUsuario.apellido}}, {{tuplaUsuario.nombre}} ({{tuplaUsuario.usuario}})</option>
+                {% endfor %}
+              </select>
+            </div>
+            {% endif %}
+
+            <div class="form-group">
+              <label class="control-label">Descripción * (<span id="des-max-length">255</span> caracteres restantes)</label>
+              <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Ingrese una breve descripción." row="6" maxlength="255" data-validation="length required" data-validation-length="1-255" data-validation-error-msg="La descripción debe contener [1-255 caracteres]."></textarea>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <span class="help-block">Los campos con * son necesarios completarlos.</span>
+                <span class="help-block"><p class="text-danger">¡Por favor! verficar los datos antes de enviarlos.</p></span>
+                <button type="submit" class="btn btn-outline btn-primary">Enviar</button>
+              </div>
+            </div>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>{#-- div panel --#}
+  </div>
+</div>
+{% endblock %}
+{% block menu %}
+  {# Script para submenues #}
+  <script>
+    (function($){
+      $(document).ready(function(){
+        $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
+          event.preventDefault(); 
+          event.stopPropagation(); 
+          $(this).parent().siblings().removeClass('open');
+          $(this).parent().toggleClass('open');
+        });
+      });
+    })(jQuery);
+  </script>
+{% endblock %}
+{% block plugins %}
+{# Plugin Form-validator #}
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+<script>
+  // Form-validator
+  $.validate({
+    lang : 'es',
+    modules : 'location, date, security, file',
+    onModulesLoaded : function() {
+      $('#country').suggestCountry();
+    }
+  });
+
+  // Longitud de la descripción para textarea
+  $('#descripcion').restrictLength($('#des-max-length'));
+</script>
+{% endblock %}

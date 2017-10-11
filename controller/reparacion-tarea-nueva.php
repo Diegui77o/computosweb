@@ -1,24 +1,20 @@
 <?php
-
-// Controlador que muestra un formulario para cargar un ingreso al sistema
+// Controlador que muestra un formulario para cargar nuevas reparaciones o tareas en el sistema
 require_once 'cargaTwig.php';
 
 session_start();
 if (isset($_SESSION["rol"])) {
     $rol = $_SESSION["rol"];
-    if (($rol == 1) or ($rol == 2)) {
-        // Cargo listado de productos
-        include "../model/producto.php";
-        $producto           = new Producto();
-        $listadoDeProductos = $producto->listarProductos();
-        // Fecha actual
-        $diaActual = date("d-m-Y");
+    if (($rol == 1) or ($rol == 2) or ($rol == 3)) {
+        // Listado de usuarios
+        include "../model/usuario.php";
+        $usuario           = new Usuario();
+        $listadoDeUsuarios = $usuario->listarUsuarios();
         // Cargo la vista
-        echo $twig->render('ingreso/nuevo.html.twig', array(
-            'pagina'             => ' - Nuevo ingreso',
-            'rol'                => $rol,
-            'diaActual'          => $diaActual,
-            'listadoDeProductos' => $listadoDeProductos,
+        echo $twig->render('reparacion/nueva.html.twig', array(
+            'pagina'            => ' - Nueva reparación/tarea',
+            'rol'               => $rol,
+            'listadoDeUsuarios' => $listadoDeUsuarios,
         ));
     } else {
         // Cargo la vista error permisos
