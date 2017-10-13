@@ -1,0 +1,138 @@
+{# Vista utilizada para cambiar la contraseña del usuario #}
+{% extends 'layout/base.html.twig' %}
+{% block head %}
+  {# Plugin datepicker #}
+  <link rel="stylesheet" type="text/css" href="../public/datepicker/jquery-ui.min.css">
+{% endblock %}
+{% block contenido %}
+{# div necesario para que la vista se ajuste (no lleva cierre porque lo cierra la vista base) #}
+<div class="container marketing">
+<div class="row">
+  <div class="col-md-4">
+    <h3>Reparación o tarea</h3>
+    <p>
+      <b class="text-primary">Usuario:</b> {{reparacionEncontrada.usuario}}<br>
+      <b class="text-primary">Apellido y Nombre:</b> {{reparacionEncontrada.apellidoUsuario}}, {{reparacionEncontrada.nombreUsuario}}<br>
+      <b class="text-primary">Fecha ingreso:</b> {{reparacionEncontrada.fecha_ingreso|date("d/m/Y")}}<br>
+      <b class="text-primary">Descripción:</b> {{reparacionEncontrada.descripcion}}<br>
+    </p>
+    {#<p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>#}
+  </div>
+  <br>
+  <div class="col-md-8" id="tarjeta">
+    <div class="panel panel-default">
+      <div class="panel-heading"><center><i class="fa fa-wrench" aria-hidden="true"></i> Cambiar estado <b>Reparación/tarea</b></center></div>
+      <div class="panel-body">
+        <form method="post" action="../controller/reparacion-change-state.php">
+          {% if msjError == true %}
+          <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>¡Error!</strong> {{msj}}
+          </div>
+          {% elseif msjExito == true %}
+          <div class="alert alert-dismissible alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>¡Exito!</strong> {{msj}}
+          </div>
+          {% endif %}
+          <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Estado *</label>
+                  <select class="form-control" id="estado" name="estado" data-validation="required">
+                    {% for tuplaEstadoReparacion in listadoEstadoReparacion %}
+                      {% if reparacionEncontrada.idestado_reparacion == tuplaEstadoReparacion.id %}
+                        <option selected value="{{tuplaEstadoReparacion.id}}">{{tuplaEstadoReparacion.nombre}}</option>
+                      {% else %}
+                        <option value="{{tuplaEstadoReparacion.id}}">{{tuplaEstadoReparacion.nombre}}</option>
+                      {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="control-label">Fecha salida *</label>
+                    <input class="form-control" type="text" name="fecha_salida" id="fecha_salida" data-validation-format="dd-mm-yyyy" placeholder="Ingrese fecha salida" value="{{diaActual}}" readonly>
+                  </div>
+                </div>
+              </div>
+
+            <div class="form-group">
+              <label class="control-label">Informe * (<span id="obs-max-length">255</span> caracteres restantes)</label>
+              <textarea class="form-control" name="observacion" id="observacion" placeholder="Ingrese una breve descripción del informe de la reparación." row="6" maxlength="255" data-validation="length required" data-validation-length="1-255" data-validation-error-msg="La descripción debe contener [1-255 caracteres]."></textarea>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <span class="help-block">Los campos con * son necesarios completarlos.</span>
+                <span class="help-block"><p class="text-danger">¡Por favor! verficar los datos antes de enviarlos.</p></span>
+                <input type="hidden" name="id" value="{{reparacionEncontrada.id}}">
+                <button type="submit" class="btn btn-outline btn-primary">Enviar</button>
+              </div>
+            </div>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>{#-- div panel --#}
+  </div>
+</div>
+{% endblock %}
+{% block plugins %}
+{# Plugin Form-validator #}
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+{# Plugin datepicker #}
+<script type="text/javascript" src="../public/datepicker/js/jquery-ui.min.js"></script>
+<script>
+  // Form-validator
+  $.validate({
+    lang : 'es',
+    modules : 'location, date, security, file',
+    onModulesLoaded : function() {
+      $('#country').suggestCountry();
+    }
+  });
+
+  // Restringe la longitud de la descripción
+  $('#observacion').restrictLength($('#obs-max-length'));
+</script>
+<script>
+  // Datepicker
+  jQuery.datepicker.regional['es'] = {
+    closeText : 'Cerrar',
+    prevText : '<- Ant',
+        nextText: 'Sig ->',
+    currentText : 'Hoy',
+    changeMonth: true,
+    changeYear: true,
+    yearRange:"-10y:+10y",
+    monthNames : [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre',
+        'Diciembre' ],
+    monthNamesShort : [ 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul',
+        'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ],
+    dayNames : [ 'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves',
+        'Viernes', 'Sábado' ],
+    dayNamesShort : [ 'Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb' ],
+    dayNamesMin : [ 'Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá' ],
+    weekHeader : 'Sm',
+    dateFormat : 'dd/mm/yy',
+    firstDay : 1,
+    isRTL : false,
+    showMonthAfterYear : false,
+    yearSuffix : ''
+  };
+  $.datepicker.setDefaults($.datepicker.regional['es']);
+
+  $("#fecha_salida").datepicker({
+    dateFormat : 'dd-mm-yy',
+    showAnim : 'show',
+    showButtonPanel : true
+  }).val();
+</script>
+{% endblock %}

@@ -1,0 +1,181 @@
+{% extends 'layout/sistema.html.twig' %}
+{% block head %}
+    {# DataTables CSS #}
+    <link href="../public/plugins/data-tables/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+    {# DataTables Responsive CSS #}
+    <link href="../public/plugins/data-tables/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+{% endblock %}
+{% block contenido %}
+
+<div class="col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-heading"><center><i class="fa fa-wrench" aria-hidden="true"></i> Listado de reparaciones <b>{{tituloPanel}}</b></center></div>
+        {# /.panel-heading #}
+        <div class="panel-body">
+			{% if msjError == true %}
+				<div class="alert alert-dismissible alert-danger">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<strong>¡Error!</strong> {{msj}}
+				</div>
+			{% elseif msjExito == true %}
+				<div class="alert alert-dismissible alert-success">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<strong>¡Exito!</strong> {{msj}}
+				</div>
+			{% endif %}
+
+            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                <thead>
+                    <tr>
+                    	<th>Usuario</th>
+                        <th>Fecha ingreso</th>
+                        <th>Descripción</th>
+                        <th>Informe</th>
+                        <th>Fecha salida</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                	{% for tuplaReparacion in listadoDeReparaciones %}
+                    <tr class="odd gradeX">
+                    	<td>{{tuplaReparacion.usuario}}</td>
+                        <td>{{tuplaReparacion.fecha_ingreso|date("Y/m/d")}}</td>
+                        <td>{{tuplaReparacion.descripcion[0:15]}} ...</td>
+                        <td>{{tuplaReparacion.observacion[0:15]}} ...</td>
+                        <td>{{tuplaReparacion.fecha_salida|date("Y/m/d")}}</td>
+                        {% if tuplaReparacion.estadoReparacion == 'Pendiente' %}
+                        	<td><p class="text-warning">{{tuplaReparacion.estadoReparacion}}</p></td>
+                        {% elseif tuplaReparacion.estadoReparacion == 'Reparando' %}
+                        	<td><p class="text-info">{{tuplaReparacion.estadoReparacion}}</p></td>
+                        {% elseif tuplaReparacion.estadoReparacion == 'Listo' %}
+                        	<td><p class="text-success">{{tuplaReparacion.estadoReparacion}}</p></td>
+                        {% else %}
+                        	<td><p class="text-danger">{{tuplaReparacion.estadoReparacion}}</p></td>
+                        {% endif %}
+                        <td><center>
+							<form method="POST">
+								<input type="hidden" name="id" value="{{tuplaReparacion.id}}">
+								{# Trigger the modal with a button #}
+								<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal{{tuplaReparacion.id}}" title="Ver"><i class="fa fa-eye" aria-hidden="true"></i></button>
+
+								{# Modal #}
+								<div id="myModal{{tuplaReparacion.id}}" class="modal fade" role="dialog">
+								  <div class="modal-dialog">
+
+								    {# Modal content #}
+								    <div class="modal-content">
+								      <div class="modal-header">
+								        <button type="button" class="close" data-dismiss="modal" >&times;</button>
+								        <h4 class="modal-title text-primary">{{tuplaReparacion.apellidoUsuario}}, {{tuplaReparacion.nombreUsuario}}</h4>
+								      </div>
+								    <div class="modal-body">
+								        <div class="col-md-12">
+								          <div class="row">
+								            <div class="col-md-6">
+								              <div class="form-group">
+												<i class="fa fa-user" aria-hidden="true"></i> <strong class="text-primary">Usuario</strong><p>{{tuplaReparacion.apellidoUsuario}}, {{tuplaReparacion.nombreUsuario}} ({{tuplaReparacion.usuario}})</p>
+								              </div>
+								            </div>
+								            <div class="col-md-6">
+								              <div class="form-group">
+												<i class="fa fa-wrench" aria-hidden="true"></i> <strong class="text-primary">Estado</strong>
+												{% if tuplaReparacion.estadoReparacion == 'Pendiente' %}
+													<p class="text-warning">{{tuplaReparacion.estadoReparacion}}</p>
+												{% elseif tuplaReparacion.estadoReparacion == 'Reparando' %}
+													<p class="text-info">{{tuplaReparacion.estadoReparacion}}</p>
+												{% elseif tuplaReparacion.estadoReparacion == 'Listo' %}
+													<p class="text-success">{{tuplaReparacion.estadoReparacion}}</p>
+												{% else %}
+												    <p class="text-danger">{{tuplaReparacion.estadoReparacion}}</p>
+												{% endif %}
+								              </div>
+								            </div>
+								          </div>
+								        </div>
+
+								        <div class="col-md-12">
+								          <div class="row">
+								            <div class="col-md-6">
+								              <div class="form-group">
+												<i class="fa fa-calendar" aria-hidden="true"></i> <strong class="text-primary">Fecha ingreso</strong><p>{{tuplaReparacion.fecha_ingreso|date("d/m/Y")}}</p>
+								              </div>
+								            </div>
+								            <div class="col-md-6">
+								              <div class="form-group">
+												<i class="fa fa-calendar-check-o" aria-hidden="true"></i> <strong class="text-primary">Posible fecha salida</strong><p>{{tuplaReparacion.fecha_salida|date("d/m/Y")}}</p>
+								              </div>
+								            </div>
+								          </div>
+								        </div>
+
+								        <div class="col-md-12">
+								          <div class="form-group">
+											<i class="fa fa-commenting" aria-hidden="true"></i> <strong class="text-primary">Descripción</strong><p>{{tuplaReparacion.descripcion}}</p>
+								          </div>
+								        </div>
+
+								        <div class="col-md-12">
+								          <div class="form-group">
+											<i class="fa fa-commenting-o" aria-hidden="true"></i> <strong class="text-primary">Informe</strong><p>{{tuplaReparacion.observacion}}</p>
+								          </div>
+								        </div>
+
+								      </div>
+								      <div class="modal-footer">
+								        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+								      </div>
+								    </div>
+
+								  </div>
+								</div>{# Modal #}
+								{# Si es administrador muestra los distintos botones #}
+								{% if rol == 1 %}
+									<button	formaction="../controller/reparacion-cambiar-estado.php" class="btn btn-success btn-xs" title="Cambiar estado"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+									<button formaction="../controller/reparacion-delete.php" onclick="return confirm('¿Seguro desea eliminar la reparación/tarea?')" class="btn btn-danger btn-xs" title="Eliminar"><i class="fa fa-trash" aria-hidden="true"></i></button>
+								{% endif %}
+							</form></center>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+        {# /.panel-body #}
+    </div>
+    {# /.panel #}
+</div>
+{# div necesario para que la vista se ajuste (no lleva cierre porque lo cierra la vista base)#}
+<div class="container marketing">
+{% endblock %}
+{% block plugins %}
+	{# DataTables JavaScript #}
+	<script src="../public/plugins/data-tables/datatables/js/jquery.dataTables.min.js"></script>
+	<script src="../public/plugins/data-tables/datatables-plugins/dataTables.bootstrap.min.js"></script>
+	<script src="../public/plugins/data-tables/datatables-responsive/dataTables.responsive.js"></script>
+	{# Script necesario para datatables (responsive, traducción entre otras cosas) #}
+	<script>
+	$(document).ready(function() {
+	    $('#dataTables-example').DataTable({
+	        responsive: true,
+			"pageLength" : 10,
+			"order" : [ [ 1, "desc" ] ],
+			"language" : {
+				"lengthMenu" : "Mostrar _MENU_ registros por página",
+				"info" : "Mostrando página _PAGE_ de _PAGES_",
+				"infoEmpty" : "No se observan registros",
+				"emptyTable" : "No se encuentran resultados",
+				"zeroRecords" : "Sin resultados para mostrar",
+				"infoFiltered" : "(filtrada de _MAX_ registros)",
+				"search" : "Buscar: ",
+				"paginate" : {
+					"next" : "Siguiente",
+					"previous" : "Anterior"
+				}
+			}
+
+	    });
+	});
+	</script>
+{% endblock %}
