@@ -103,7 +103,12 @@
 								            </div>
 								            <div class="col-md-6">
 								              <div class="form-group">
+								              {# Pregunto para ajustar el texto y que figure fecha salida cuando corresponde #}
+								              {% if tuplaReparacion.estadoReparacion == 'Listo' or tuplaReparacion.estadoReparacion == 'Sin Arreglo' %}
+												<i class="fa fa-calendar-check-o" aria-hidden="true"></i> <strong class="text-primary">Fecha salida</strong><p>{{tuplaReparacion.fecha_salida|date("d/m/Y")}}</p>
+											  {% else %}
 												<i class="fa fa-calendar-check-o" aria-hidden="true"></i> <strong class="text-primary">Posible fecha salida</strong><p>{{tuplaReparacion.fecha_salida|date("d/m/Y")}}</p>
+											  {% endif %}
 								              </div>
 								            </div>
 								          </div>
