@@ -1,0 +1,191 @@
+{% extends 'layout/sistema.html.twig' %}
+{% block head %}
+    {# DataTables CSS #}
+    <link href="../public/plugins/data-tables/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+    {# DataTables Responsive CSS #}
+    <link href="../public/plugins/data-tables/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+{% endblock %}
+{% block contenido %}
+
+<div class="col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-heading"><center><i class="fa fa-bullhorn" aria-hidden="true"></i> Listado de pedidos <b>{{tituloPanel}}</b></center></div>
+        {# /.panel-heading #}
+        <div class="panel-body">
+			{% if msjError == true %}
+				<div class="alert alert-dismissible alert-danger">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<strong>¡Error!</strong> {{msj}}
+				</div>
+			{% elseif msjExito == true %}
+				<div class="alert alert-dismissible alert-success">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<strong>¡Exito!</strong> {{msj}}
+				</div>
+			{% endif %}
+
+            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                <thead>
+                    <tr>
+                    	<th>Apellido y nombre</th>
+                        <th>Área</th>
+                        <th>Producto (Marca)</th>
+                        <th>Cantidad</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                	{% for tuplaPedido in listadoDePedidos %}
+                    <tr class="odd gradeX">
+                        <td>{{tuplaPedido.apellidoUsuario}}, {{tuplaPedido.nombreUsuario}}</td>
+                        <td>{{tuplaPedido.nombreArea}}</td>
+                        <td>{{tuplaPedido.nombreProducto}} ({{tuplaPedido.marcaProducto}})</td>
+                        <td>{{tuplaPedido.cantidad}}</td>
+                        <td>{{tuplaPedido.fecha|date("Y/m/d")}}</td>
+                        {# Dependiendo el estado muestra el estado con color correspondiente #}
+                        {% if tuplaPedido.nombreEstado == 'Reservado' %}
+                        	<td><p class="text-warning">{{tuplaPedido.estado}}</p></td>
+                        {% elseif tuplaPedido.nombreEstado == 'Entregado' %}
+                        	<td><p class="text-success">{{tuplaPedido.estado}}</p></td>
+                        {% else %}
+                        	<td><p class="text-danger">{{tuplaPedido.estado}}</p></td>
+                        {% endif %}
+                        <td><center>
+							<form method="POST">
+								<input type="hidden" name="idpedido" value="{{tuplaPedido.idpedido}}">
+								<input type="hidden" name="idpedido_detalle"  value="{{tuplaPedido.id}}">
+								{# Trigger the modal with a button #}
+								<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal{{tuplaPedido.idpedido}}" title="Ver"><i class="fa fa-eye" aria-hidden="true"></i></button>
+
+								{# Modal #}
+								<div id="myModal{{tuplaPedido.idpedido}}" class="modal fade" role="dialog">
+								  <div class="modal-dialog">
+
+								    {# Modal content #}
+								    <div class="modal-content">
+								      <div class="modal-header">
+								        <button type="button" class="close" data-dismiss="modal" >&times;</button>
+								        <h4 class="modal-title text-primary">{{tuplaPedido.apellidoUsuario}}, {{tuplaPedido.nombreUsuario}}</h4>
+								      </div>
+								    <div class="modal-body">
+								        <div class="col-md-12">
+								          <div class="row">
+								            <div class="col-md-4">
+								              <div class="form-group">
+												<i class="fa fa-user" aria-hidden="true"></i> <strong class="text-primary">Usuario</strong><p>{{tuplaPedido.apellidoUsuario}}, {{tuplaPedido.nombreUsuario}} ({{tuplaPedido.usuario}})</p>
+								              </div>
+								            </div>
+								            <div class="col-md-4">
+								              <div class="form-group">
+												<i class="fa fa-sitemap" aria-hidden="true"></i> <strong class="text-primary">Área</strong><p>{{tuplaPedido.nombreArea}}</p>
+								              </div>
+								            </div>
+								            <div class="col-md-4">
+								              <div class="form-group">
+												<i class="fa fa-shopping-cart" aria-hidden="true"></i> <strong class="text-primary">Producto</strong><p>{{tuplaPedido.nombreProducto}} ({{tuplaPedido.marcaProducto}})</p>
+								              </div>
+								            </div>
+								          </div>
+								        </div>
+
+								        <div class="col-md-12">
+								          <div class="row">
+								            <div class="col-md-4">
+								              <div class="form-group">
+												<i class="fa fa-cubes" aria-hidden="true"></i> <strong class="text-primary">Cantidad</strong><p>{{tuplaPedido.cantidad}}</p>
+								              </div>
+								            </div>
+								            <div class="col-md-4">
+								              <div class="form-group">
+												<i class="fa fa-calendar" aria-hidden="true"></i> <strong class="text-primary">Fecha</strong><p>{{tuplaPedido.fecha|date("d/m/Y")}}</p>
+								              </div>
+								            </div>
+								            <div class="col-md-4">
+								              <div class="form-group">
+												<i class="fa fa-bullhorn" aria-hidden="true"></i> <strong class="text-primary">Estado</strong>
+												{# Dependiendo el estado muestra el estado con color correspondiente #}
+												{% if tuplaPedido.nombreEstado == 'Reservado' %}
+													<p class="text-warning">{{tuplaPedido.estado}}</p>
+												{% elseif tuplaPedido.nombreEstado == 'Entregado' %}
+													<p class="text-success">{{tuplaPedido.estado}}</p>
+												{% else %}
+													<p class="text-danger">{{tuplaPedido.estado}}</p>
+												{% endif %}
+								              </div>
+								            </div>
+								          </div>
+								        </div>
+
+								        <div class="col-md-12">
+								          <div class="form-group">
+											<i class="fa fa-commenting" aria-hidden="true"></i> <strong class="text-primary">Descripción</strong><p>{{tuplaPedido.descripcion}}</p>
+								          </div>
+								        </div>
+
+								        <div class="col-md-12">
+								          <div class="form-group">
+											<i class="fa fa-commenting-o" aria-hidden="true"></i> <strong class="text-primary">Observación</strong><p>{{tuplaPedido.observacion}}</p>
+								          </div>
+								        </div>
+
+										<button formaction="../controller/producto-delete.php" onclick="return confirm('¿Seguro desea cancelar el pedido?')" class="btn btn-primary btn-xs" title="Modificar descripción/observación"><i class="fa fa-pencil" aria-hidden="true"></i> Modificar descripción/observación</button>
+
+								      </div>
+								      <div class="modal-footer">
+								        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+								      </div>
+								    </div>
+
+								  </div>
+								</div>{# Modal #}
+								{% if tuplaPedido.nombreEstado == 'Reservado' %}
+									<button	formaction="../controller/producto-modificar.php"  onclick="return confirm('¿Seguro desea confirmar el pedido?')" class="btn btn-success btn-xs" title="Confirmar"><i class="fa fa-check" aria-hidden="true"></i></button>
+									<button formaction="../controller/producto-delete.php" onclick="return confirm('¿Seguro desea cancelar el pedido?')" class="btn btn-danger btn-xs" title="Cancelar"><i class="fa fa-times" aria-hidden="true"></i></button>
+								{% endif %}
+							</form></center>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+        {# /.panel-body #}
+    </div>
+    {# /.panel #}
+</div>
+{# div necesario para que la vista se ajuste (no lleva cierre porque lo cierra la vista base)#}
+<div class="container marketing">
+{% endblock %}
+{% block plugins %}
+	{# DataTables JavaScript #}
+	<script src="../public/plugins/data-tables/datatables/js/jquery.dataTables.min.js"></script>
+	<script src="../public/plugins/data-tables/datatables-plugins/dataTables.bootstrap.min.js"></script>
+	<script src="../public/plugins/data-tables/datatables-responsive/dataTables.responsive.js"></script>
+	{# Script necesario para datatables (responsive, traducción entre otras cosas) #}
+	<script>
+	$(document).ready(function() {
+	    $('#dataTables-example').DataTable({
+	        responsive: true,
+			"pageLength" : 10,
+			"order" : [ [ 4, "desc" ] ],
+			"language" : {
+				"lengthMenu" : "Mostrar _MENU_ registros por página",
+				"info" : "Mostrando página _PAGE_ de _PAGES_",
+				"infoEmpty" : "No se observan registros",
+				"emptyTable" : "No se encuentran resultados",
+				"zeroRecords" : "Sin resultados para mostrar",
+				"infoFiltered" : "(filtrada de _MAX_ registros)",
+				"search" : "Buscar: ",
+				"paginate" : {
+					"next" : "Siguiente",
+					"previous" : "Anterior"
+				}
+			}
+
+	    });
+	});
+	</script>
+{% endblock %}

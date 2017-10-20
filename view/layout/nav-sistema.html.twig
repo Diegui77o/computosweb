@@ -13,7 +13,7 @@
 					{# Modulo pedidos usuario registrado #}
 					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Pedido"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Pedido<b class="caret"></b></a>
 					    <ul class="dropdown-menu">
-					        <li><a href="../controller/ingreso-nuevo.php" title="Nuevo pedido">Nuevo Pedido</a></li>
+					        <li><a href="../controller/pedido-nuevo.php" title="Nuevo pedido">Nuevo Pedido</a></li>
 					        <li><a href="../controller/ingreso-listado.php" title="Mis pedidos">Listado mis pedidos</a></li>
 					    </ul>
 					</li>
@@ -33,11 +33,15 @@
 				{# Modulo de pedidos del administrador #}
 				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Pedidos"><i class="fa fa-bullhorn" aria-hidden="true"></i> Pedidos<b class="caret"></b></a>
 				    <ul class="dropdown-menu">
-				        <li><a href="../controller/reparacion-nueva.php" title="Nuevo pedido">Nuevo pedido</a></li>
+				        <li><a href="../controller/pedido-nuevo.php" title="Nuevo pedido">Nuevo pedido</a></li>
 				        <li class="divider"></li>
-				        <li><a href="../controller/reparacion-listado.php" title="Pedidos reservados">Listado de pedidos reservados</a></li>
-				        <li><a href="../controller/reparacion-listado.php" title="Pedidos entregados">Listado de pedidos entregados</a></li>
-				        <li><a href="../controller/reparacion-listado.php" title="Pedidos cancelados">Listado de pedidos cancelados</a></li>
+				        {% if rol == 1 %}
+				        	<li><a href="../controller/pedido-listado-reservados.php" title="Pedidos reservados">Listado de pedidos reservados</a></li>
+				        {% endif %}
+				        <li><a href="../controller/pedido-listado-entregados.php" title="Pedidos entregados">Listado de pedidos entregados</a></li>
+				        {% if rol == 1 %}
+				        	<li><a href="../controller/pedido-listado-cancelados.php" title="Pedidos cancelados">Listado de pedidos cancelados</a></li>
+				        {% endif %}
 				    </ul>
 				</li>
 				{% endif %}
@@ -55,7 +59,7 @@
 					        <li><a href="../controller/reparacion-listado-sin-arreglo.php" title="Reparaciones sin arreglo">Listado de reparaciones sin arreglo</a></li>
 				        {% else %}
 					        <li class="divider"></li>
-					        <li><a href="../controller/listado-mis-reparaciones-tareas.php" title="Mis reparaciones/tareas">Listado de mis reparaciones/tareas</a></li>
+					        <li><a href="../controller/reparacion-listado-mis-reparaciones.php" title="Mis reparaciones/tareas">Listado de mis reparaciones/tareas</a></li>
 				        {% endif %}
 				    </ul>
 				</li>
@@ -94,7 +98,9 @@
 
 			{# Modulo mi perfil #}
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="../controller/area-nueva.php" title="Notificaciones"><i class="fa fa-bell" aria-hidden="true"></i></a></li>
+				{% if rol == 1 %}
+					<li><a href="../controller/notificaciones.php" title="Notificaciones"><i class="fa fa-bell" aria-hidden="true"></i></a></li>
+				{% endif %}
 				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" title="Mi Perfil"><span class="glyphicon glyphicon-option-vertical"></span> Perfil <span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="../controller/mis-datos.php" title="Mis datos"><i class="fa fa-id-card" aria-hidden="true"></i> Mis datos</a></li>
