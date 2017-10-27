@@ -1,0 +1,131 @@
+{# Vista utilizada para cambiar la contraseña del usuario #}
+{% extends 'layout/base.html.twig' %}
+{% block contenido %}
+{# div necesario para que la vista se ajuste (no lleva cierre porque lo cierra la vista base) #}
+<div class="container marketing">
+<div class="row">
+  <div class="col-md-4">
+    <h3>Datos del pedido</h3>
+    <p>
+      <b class="text-primary"><i class="fa fa-user" aria-hidden="true"></i> Apellido y Nombre:</b> {{pedido.apellidoUsuario}}, {{pedido.nombreUsuario}} ({{pedido.usuario}})<br>
+      <b class="text-primary"><i class="fa fa-calendar" aria-hidden="true"></i> Fecha:</b> {{pedido.fecha|date("d/m/Y")}}<br>
+      <b class="text-primary"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Producto:</b> {{pedido.nombreProducto}} ({{pedido.marcaProducto}})<br>
+      <b class="text-primary"><i class="fa fa-cubes" aria-hidden="true"></i> Cantidad:</b> {{pedido.cantidad}}<br>
+    </p>
+  </div>
+  <br>
+  <div class="col-md-8" id="tarjeta">
+    <div class="panel panel-default">
+      <div class="panel-heading"><center><i class="fa fa-pencil" aria-hidden="true"></i> Modificar <b>Descripción/Observación</b></center></div>
+      <div class="panel-body">
+        <form method="post" action="../controller/pedido-modificar-des-obs-edit.php">
+          {% if msjError == true %}
+          <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>¡Error!</strong> {{msj}}
+          </div>
+          {% elseif msjExito == true %}
+          <div class="alert alert-dismissible alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>¡Exito!</strong> {{msj}}
+          </div>
+          {% endif %}
+          <div class="col-md-12">
+
+            <div class="col-md-12">
+            <div class="form-group">
+              <label class="control-label">Descripción * (<span id="des-max-length">255</span> caracteres restantes)</label>
+              <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Ingrese una breve descripción del pedido. Por ejemplo, total de pag. impresas." row="6" maxlength="255" data-validation="length required" data-validation-length="1-255" data-validation-error-msg="La descripción debe contener [1-255 caracteres].">{{pedido.descripcion}}</textarea>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="control-label">Observación * (<span id="obs-max-length">255</span> caracteres restantes)</label>
+              <textarea class="form-control" name="observacion" id="observacion" placeholder="Ingrese una breve observación del pedido." row="6" maxlength="255" data-validation="length required" data-validation-length="1-255" data-validation-error-msg="La descripción debe contener [1-255 caracteres].">{{pedido.observacion}}</textarea>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <span class="help-block">Los campos con * son necesarios completarlos.</span>
+                <input type="hidden" name="id" id="id" value="{{pedido.idpedido}}">
+                <span class="help-block"><p class="text-danger">¡Por favor! verficar los datos antes de enviarlos.</p></span>
+                <button type="submit" class="btn btn-outline btn-primary">Enviar</button>
+              </div>
+            </div>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>{#-- div panel --#}
+  </div>
+</div>
+{% endblock %}
+{% block menu %}
+  {# Script para submenues #}
+  <script>
+    (function($){
+      $(document).ready(function(){
+        $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
+          event.preventDefault(); 
+          event.stopPropagation(); 
+          $(this).parent().siblings().removeClass('open');
+          $(this).parent().toggleClass('open');
+        });
+      });
+    })(jQuery);
+  </script>
+{% endblock %}
+{% block plugins %}
+{# Plugin Form-validator #}
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+<script>
+  // Form-validator
+  $.validate({
+    lang : 'es',
+    modules : 'location, date, security, file',
+    onModulesLoaded : function() {
+      $('#country').suggestCountry();
+    }
+  });
+
+  // Restringe la longitud de la descripción
+  $('#descripcion').restrictLength($('#des-max-length'));
+  // Restringe la longitud de la observación
+  $('#observacion').restrictLength($('#obs-max-length'));
+</script>
+<script>
+  // Para cuando el documento se active el query este vacio
+  $(document).ready(function() {
+      $("#resultadoCantidad").html('<p></p>');
+  });
+  // Funcion que muestra si el producto posee stock
+  function buscarCantidad() {
+      var producto = $("select#producto").val();
+      var textoCantidad = $("input#cantidad").val();
+   
+       if (textoCantidad != "") {
+          $.post("../controller/buscarCantidad.php", {valorCantidad: textoCantidad, idProducto: producto}, function(mensajeCantidad) {
+              $("#resultadoCantidad").html(mensajeCantidad);
+           }); 
+       } else { 
+          $("#resultadoCantidad").html('<p></p>');
+          };
+  };
+    </script>
+<script>
+    // Muestra la descripcion del producto
+    $("#producto").change(function(){
+        var idPro = $("select#producto").val();
+        $.post("../controller/buscarDescripcion.php", {valorBusqueda : idPro}, function(mensajeDescripcion) {
+      $("#resultadoDescripcion").html(mensajeDescripcion);
+    });
+  // Borra el valor del input cantidad cuando se selecciona otra producto
+  document.getElementById('cantidad').value = '';
+  $("#resultadoCantidad").html('<p></p>');
+  });
+</script>
+{% endblock %}

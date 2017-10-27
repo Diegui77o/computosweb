@@ -11,10 +11,9 @@
   <div class="col-md-4">
     <h3>Reparación o tarea</h3>
     <p>
-      <b class="text-primary">Usuario:</b> {{reparacionEncontrada.usuario}}<br>
-      <b class="text-primary">Apellido y Nombre:</b> {{reparacionEncontrada.apellidoUsuario}}, {{reparacionEncontrada.nombreUsuario}}<br>
-      <b class="text-primary">Fecha ingreso:</b> {{reparacionEncontrada.fecha_ingreso|date("d/m/Y")}}<br>
-      <b class="text-primary">Descripción:</b> {{reparacionEncontrada.descripcion}}<br>
+      <b class="text-primary"><i class="fa fa-user" aria-hidden="true"></i> Apellido y Nombre:</b> {{reparacionEncontrada.apellidoUsuario}}, {{reparacionEncontrada.nombreUsuario}} ({{reparacionEncontrada.usuario}})<br>
+      <b class="text-primary"><i class="fa fa-calendar" aria-hidden="true"></i> Fecha ingreso:</b> {{reparacionEncontrada.fecha_ingreso|date("d/m/Y")}}<br>
+      <b class="text-primary"><i class="fa fa-commenting" aria-hidden="true"></i> Descripción:</b> {{reparacionEncontrada.descripcion}}<br>
     </p>
     {#<p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>#}
   </div>
@@ -135,4 +134,19 @@
     showButtonPanel : true
   }).val();
 </script>
+{% endblock %}
+{% block menu %}
+  {# Script para submenues #}
+  <script>
+    (function($){
+      $(document).ready(function(){
+        $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
+          event.preventDefault(); 
+          event.stopPropagation(); 
+          $(this).parent().siblings().removeClass('open');
+          $(this).parent().toggleClass('open');
+        });
+      });
+    })(jQuery);
+  </script>
 {% endblock %}

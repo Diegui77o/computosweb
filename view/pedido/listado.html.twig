@@ -129,8 +129,10 @@
 											<i class="fa fa-commenting-o" aria-hidden="true"></i> <strong class="text-primary">Observación</strong><p>{{tuplaPedido.observacion}}</p>
 								          </div>
 								        </div>
-
-										<button formaction="../controller/producto-delete.php" onclick="return confirm('¿Seguro desea cancelar el pedido?')" class="btn btn-primary btn-xs" title="Modificar descripción/observación"><i class="fa fa-pencil" aria-hidden="true"></i> Modificar descripción/observación</button>
+										
+										{% if ((rol == 1) or (rol == 2)) %}
+											<button formaction="../controller/pedido-modificar-des-obs.php" onclick="return confirm('¿Seguro desea modificar descripción/observación el pedido?')" class="btn btn-primary btn-xs" title="Modificar descripción/observación"><i class="fa fa-pencil" aria-hidden="true"></i> Modificar descripción/observación</button>
+										{% endif %}
 
 								      </div>
 								      <div class="modal-footer">
@@ -140,9 +142,9 @@
 
 								  </div>
 								</div>{# Modal #}
-								{% if tuplaPedido.nombreEstado == 'Reservado' %}
-									<button	formaction="../controller/producto-modificar.php"  onclick="return confirm('¿Seguro desea confirmar el pedido?')" class="btn btn-success btn-xs" title="Confirmar"><i class="fa fa-check" aria-hidden="true"></i></button>
-									<button formaction="../controller/producto-delete.php" onclick="return confirm('¿Seguro desea cancelar el pedido?')" class="btn btn-danger btn-xs" title="Cancelar"><i class="fa fa-times" aria-hidden="true"></i></button>
+								{% if ((tuplaPedido.nombreEstado == 'Reservado') and (rol == 1)) %}
+									<button	formaction="../controller/pedido-confirmar.php"  onclick="return confirm('¿Seguro desea confirmar el pedido?')" class="btn btn-success btn-xs" title="Confirmar"><i class="fa fa-check" aria-hidden="true"></i></button>
+									<button formaction="../controller/pedido-cancelar.php" onclick="return confirm('¿Seguro desea cancelar el pedido?')" class="btn btn-danger btn-xs" title="Cancelar"><i class="fa fa-times" aria-hidden="true"></i></button>
 								{% endif %}
 							</form></center>
                         </td>

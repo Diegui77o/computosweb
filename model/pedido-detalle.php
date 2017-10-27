@@ -47,11 +47,13 @@ class PedidoDetalle
     // Listado de pedidos de los usuarios (mis pedidos)
     public function misPedidos($idusuario)
     {
-        $consulta = $this->conexion->prepare("SELECT pd.*, p.nombre AS nombreProducto, p.marca AS marcaProducto, ped.fecha_alta AS fecha, ped.descripcion AS descripcion, ped.observacion AS observacion, e.nombre AS estado, ped.idusuario AS idusuario
+        $consulta = $this->conexion->prepare("SELECT pd.*, pro.nombre AS nombreProducto, pro.marca AS marcaProducto, ped.fecha_alta AS fecha, ped.idestado_pedido AS idEstado, e.nombre AS nombreEstado, u.usuario AS usuario, u.nombre AS nombreUsuario, u.apellido AS apellidoUsuario, ped.descripcion AS descripcion, ped.observacion AS observacion, e.nombre AS estado, a.nombre AS nombreArea
             FROM pedido_detalle pd
-            INNER JOIN producto p ON pd.idproducto=p.id
-            INNER JOIN pedido ped ON pd.idpedido = ped.id
-            INNER JOIN estado_pedido e ON ped.idestado_pedido = e.id
+            INNER JOIN producto pro ON pd.idproducto=pro.id
+            INNER JOIN pedido ped ON pd.idpedido=ped.id
+            INNER JOIN estado_pedido e ON ped.idestado_pedido=e.id
+            INNER JOIN usuario u ON ped.idusuario=u.id
+            INNER JOIN area a ON u.idarea = a.id
             WHERE ped.idusuario = ?
             ORDER BY ped.fecha_alta DESC");
         $consulta->bindParam(1, $idusuario);
@@ -196,7 +198,7 @@ class PedidoDetalle
     public function pedidoDelDia($idusuario, $fecha, $idproducto)
     {
         $consulta = $this->conexion->prepare("
-                SELECT p.nombre, p.marca, pd.cantidad, ped.fecha_alta, e.nombre AS estado, u.nombre, u.apellido
+                SELECT p.nombre AS nombre, p.marca AS marca, pd.cantidad AS cantidad, ped.fecha_alta, e.nombre AS estado, u.nombre AS nombreUsuario, u.apellido AS apellidoUsuario
                 FROM pedido ped INNER JOIN usuario u ON ped.idusuario = u.id
                 INNER JOIN pedido_detalle pd ON pd.idpedido = ped.id
                 INNER JOIN producto p ON pd.idproducto = p.id

@@ -1,0 +1,92 @@
+{# Vista utilizada para cambiar la contraseña del usuario #}
+{% extends 'layout/base.html.twig' %}
+{% block contenido %}
+{# div necesario para que la vista se ajuste (no lleva cierre porque lo cierra la vista base) #}
+<div class="container marketing">
+<div class="row">
+  <div class="col-md-4">
+    <h3>Cancelación del pedido</h3>
+    <p>
+      <b class="text-primary"><i class="fa fa-user" aria-hidden="true"></i> Apellido y Nombre:</b> {{pedidoDetalleEncontrado.apellidoUsuario}}, {{pedidoDetalleEncontrado.nombreUsuario}} ({{pedidoDetalleEncontrado.usuario}})<br>
+      <b class="text-primary"><i class="fa fa-calendar" aria-hidden="true"></i> Fecha:</b> {{pedidoDetalleEncontrado.fecha|date("d/m/Y")}}<br>
+      <b class="text-primary"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Producto:</b> {{pedidoDetalleEncontrado.nombreProducto}} ({{pedidoDetalleEncontrado.marcaProducto}})<br>
+      <b class="text-primary"><i class="fa fa-cubes" aria-hidden="true"></i> Cantidad:</b> {{pedidoDetalleEncontrado.cantidad}}<br>
+      <b class="text-primary"><i class="fa fa-commenting" aria-hidden="true"></i> Descripción:</b> {{pedidoDetalleEncontrado.descripcion}}<br>
+    </p>
+    {#<p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>#}
+  </div>
+  <br>
+  <div class="col-md-8" id="tarjeta">
+    <div class="panel panel-default">
+      <div class="panel-heading"><center><i class="fa fa-shopping-cart" aria-hidden="true"></i> Cancelación del <b>Pedido</b></center></div>
+      <div class="panel-body">
+        <form method="post" action="../controller/pedido-cancel.php">
+          {% if msjError == true %}
+          <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>¡Error!</strong> {{msj}}
+          </div>
+          {% elseif msjExito == true %}
+          <div class="alert alert-dismissible alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>¡Exito!</strong> {{msj}}
+          </div>
+          {% endif %}
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="control-label">Observación * (<span id="obs-max-length">255</span> caracteres restantes)</label>
+              <textarea class="form-control" name="observacion" id="observacion" placeholder="Ingrese una breve descripción de porqué se cancela el pedido." row="6" maxlength="255" data-validation="length required" data-validation-length="1-255" data-validation-error-msg="La descripción debe contener [1-255 caracteres]."></textarea>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <span class="help-block">Los campos con * son necesarios completarlos.</span>
+                <span class="help-block"><p class="text-danger">¡Por favor! verficar los datos antes de enviarlos.</p></span>
+                <input type="hidden" name="idpedido" value="{{idpedido}}">
+                <input type="hidden" name="idpedido_detalle" value="{{idpedido_detalle}}">
+                <button type="submit" class="btn btn-outline btn-primary">Enviar</button>
+              </div>
+            </div>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>{#-- div panel --#}
+  </div>
+</div>
+{% endblock %}
+{% block plugins %}
+{# Plugin Form-validator #}
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+<script>
+  // Form-validator
+  $.validate({
+    lang : 'es',
+    modules : 'location, date, security, file',
+    onModulesLoaded : function() {
+      $('#country').suggestCountry();
+    }
+  });
+
+  // Restringe la longitud de la descripción
+  $('#observacion').restrictLength($('#obs-max-length'));
+</script>
+{% endblock %}
+{% block menu %}
+  {# Script para submenues #}
+  <script>
+    (function($){
+      $(document).ready(function(){
+        $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
+          event.preventDefault(); 
+          event.stopPropagation(); 
+          $(this).parent().siblings().removeClass('open');
+          $(this).parent().toggleClass('open');
+        });
+      });
+    })(jQuery);
+  </script>
+{% endblock %}

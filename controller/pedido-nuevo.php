@@ -6,7 +6,7 @@ session_start();
 if (isset($_SESSION["rol"])) {
     $rol = $_SESSION["rol"];
     if (($rol == 1) or ($rol == 2) or ($rol == 3)) {
-        // Listado de prodcutos
+        // Listado de productos
         include "../model/producto.php";
         $producto           = new Producto();
         $listadoDeProductos = $producto->listarProductos();
