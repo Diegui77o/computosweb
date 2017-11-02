@@ -76,20 +76,6 @@
   color: #000000;
 }
 
-body{
-  background-color: #F5F5F5;
-}
-
-footer{
-    font-size: 12px;
-}
-@media screen and (min-width: 480px) {
-    /* Logo de la municipalidad en el footer */
-    #logo2{
-        float: right;
-    }
-}
-
 /* ESTILO PARA SUBMENUES */
 .marginBottom-0 {margin-bottom:0;}
 
@@ -167,4 +153,20 @@ table{
 
 #tarjeta{
   font-size: 14px;
+}
+
+body{
+  background-color: #F5F5F5;
+}
+
+footer{
+    font-size: 12px;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+@media screen and (min-width: 480px) {
+    /* Logo de la municipalidad en el footer */
+    footer #logo2{
+        float: right;
+    }
 }

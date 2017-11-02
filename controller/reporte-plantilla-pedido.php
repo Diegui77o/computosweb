@@ -30,7 +30,7 @@ class PDF extends FPDF
         $this->Line(1, 32, 208, 32);
 
         $this->Text(5, 36, utf8_decode('Nº Pedido'));
-        $this->Text(50, 36, 'Producto');
+        $this->Text(50, 36, 'Producto (Marca)');
         $this->Text(130, 36, 'Cantidad');
         //$this->Text ( 110, 36, utf8_decode ('Descripción') );
 

@@ -30,7 +30,7 @@ if (isset($_SESSION["rol"])) {
         $pdf->Text(155, 25, utf8_decode("Firma del usuario solicitante"));
 
         foreach ($listadoDePedidos as $fila => $valor) {
-            $pdf->Text(5, $pdf->GetY(), utf8_decode($listadoDePedidos[$fila][0]));
+            $pdf->Text(5, $pdf->GetY(), utf8_decode("0000" . $listadoDePedidos[$fila][0]));
             $pdf->Text(50, $pdf->GetY(), utf8_decode($listadoDePedidos[$fila][1] . " (" . $listadoDePedidos[$fila][2]) . ")");
             $pdf->Text(133, $pdf->GetY(), utf8_decode($listadoDePedidos[$fila][3]));
             //$pdf->MultiCell ( 110, $pdf->GetY (), utf8_decode ( $listadoDePedidos [$fila] [10] ));
