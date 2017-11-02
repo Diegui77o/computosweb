@@ -217,26 +217,24 @@ class PedidoDetalle
         }
         return $datos;
     }
-    // Para imprimir un listado de los pedidos del día del usuario
+    // Pedidos del usuario en fecha determinada y con estado reservado
+    // Pasar como parametros el id del usuari y la fecha
     public function reportePedidosDelUsuario($idusuario, $fecha)
     {
         $consulta = $this->conexion->prepare("
-                SELECT p.nombre, p.marca, pd.cantidad, ped.fecha_alta, e.nombre AS estado, u.nombre, u.apellido
-                FROM pedido ped INNER JOIN usuario u ON ped.idusuario = u.id
-                INNER JOIN pedido_detalle pd ON pd.idpedido = ped.id
-                INNER JOIN producto p ON pd.idproducto = p.id
-                INNER JOIN estado_pedido e ON ped.idestado_pedido = e.id
-                WHERE u.id=? and ped.fecha_alta=?
+            SELECT ped.id AS numeroPedido, p.nombre, p.marca, pd.cantidad, ped.fecha_alta AS fecha, e.nombre AS estado, u.nombre AS nombreUsuario, u.apellido AS apellidoUsuario, u.usuario AS usuario, a.nombre AS nombreArea, ped.descripcion
+            FROM pedido ped INNER JOIN usuario u ON ped.idusuario = u.id
+                            INNER JOIN pedido_detalle pd ON pd.idpedido = ped.id
+                            INNER JOIN producto p ON pd.idproducto = p.id
+                            INNER JOIN estado_pedido e ON ped.idestado_pedido = e.id
+                            INNER JOIN  area a ON u.idarea = a.id
+                            WHERE u.id=? and ped.fecha_alta=? and e.id = 1
+                            ORDER BY numeroPedido
                 ");
         $consulta->bindParam(1, $idusuario);
         $consulta->bindParam(2, $fecha);
         $consulta->execute();
-        $count = $consulta->rowcount();
-        if ($count == 1) {
-            $datos = $consulta->fetch();
-        } else {
-            $datos = null;
-        }
+        $datos = $consulta->fetchAll();
         return $datos;
     }
 }

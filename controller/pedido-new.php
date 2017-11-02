@@ -25,8 +25,9 @@ if (isset($_SESSION["rol"])) {
         $producto           = new Producto();
         $productoEncontrado = $producto->buscarProducto($idProducto);
         $stockActual        = $productoEncontrado["stock"];
+        $stockMinimo        = $productoEncontrado["stock_minimo"];
         // Si el stock actual es mayor a lo que el usuario pide entra y se registra la operación
-        if ($stockActual >= $cantidad) {
+        if (($stockActual >= $cantidad) and ($cantidad <= $stockMinimo)) {
             include "../model/pedido.php";
             $pedido = new Pedido();
             // Alta del pedido, me quedo con su id para registrar los detalles del mismo
@@ -74,7 +75,11 @@ if (isset($_SESSION["rol"])) {
                 $usuario           = new Usuario();
                 $listadoDeUsuarios = $usuario->listarUsuarios();
                 // Cargo la vista
-                $msj = "La cantidad solicitada es mayor al stock que posee el producto. Actualmente el stock del producto es de " . $productoEncontrado["stock"];
+                if ($cantidad <= $stockMinimo) {
+                    $msj = "La cantidad solicitada es mayor al stock que posee el producto. Actualmente el stock del producto " . $productoEncontrado["nombre"] . " (" . $productoEncontrado["marca"] . ") es de " . $productoEncontrado["stock"] . ".";
+                } else {
+                    $msj = "No podemos entregar más de " . $stockMinimo . " unidades del producto ".$productoEncontrado["nombre"]. " por usuario. Disculpe las molestias!";
+                }
                 echo $twig->render('pedido/nuevo.html.twig', array(
                     'pagina'             => ' - Nuevo pedido',
                     'rol'                => $rol,
@@ -85,7 +90,11 @@ if (isset($_SESSION["rol"])) {
                 ));
             } else {
                 // Cargo la vista
-                $msj = "La cantidad solicitada es mayor al stock que posee el producto. Actualmente el stock del producto " . $productoEncontrado["nombre"] . " (" . $productoEncontrado["marca"] . ") es de " . $productoEncontrado["stock"] . ".";
+                if ($cantidad <= $stockMinimo) {
+                    $msj = "La cantidad solicitada es mayor al stock que posee el producto. Actualmente el stock del producto " . $productoEncontrado["nombre"] . " (" . $productoEncontrado["marca"] . ") es de " . $productoEncontrado["stock"] . ".";
+                } else {
+                    $msj = "No podemos entregar más de " . $stockMinimo . " unidades del producto por usuario. Disculpe las molestias!";
+                }
                 echo $twig->render('pedido/nuevo.html.twig', array(
                     'pagina'             => ' - Nuevo pedido',
                     'rol'                => $rol,

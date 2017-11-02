@@ -1,0 +1,42 @@
+{# Vista que muestra las notificaciones del sistema #}
+{% extends 'layout/sistema.html.twig' %}
+{% block contenido %}
+{# div necesario para que la vista se ajuste (no lleva cierre porque lo cierra la vista base) #}
+<div class="container marketing">
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading"><center><span class="fa fa-bell" aria-hidden="true"></span> Notificaciones del <b>sistema</b></center></div>
+      <div class="panel-body">
+      <ul class="list-group">
+        {# Usuarios pendientes #}
+        <li class="list-group-item"><span class="badge">{{cantidadDeUsuariosPendientes}}</span>
+          <span>Usuarios Pendientes. <a href="../controller/usuario-listado.php">Listado</a></span>
+        </li> 
+        {# Pedidos pendientes o reservados #}
+        <li class="list-group-item"><span class="badge">{{cantidadDePedidosPendientes}}</span>
+          <span>Pedidos Pendientes. <a href="../controller/pedido-listado-reservados.php">Listado</a></span>
+        </li> 
+        {# Reparaciones pendientes #}
+        <li class="list-group-item"><span class="badge">{{cantidadDeReparacionesPendientes}}</span>
+          <span>Reparaciones Pendientes. <a href="../controller/reparacion-listado-pendientes.php">Listado</a></span>
+        </li> 
+        {# Reparaciones en reparacion #}
+        <li class="list-group-item"><span class="badge">{{cantidadDeReparacionesEnReparacion}}</span>
+          <span>Reparaciones En Reparación. <a href="../controller/reparacion-listado-en-reparacion.php">Listado</a></span>
+        </li>
+      </ul>
+      </div>
+    </div>{# div panel #}
+ </div>
+</div>
+{% endblock %}
+{% block plugins %}
+<script type="text/javascript">
+    var int=self.setInterval("refresh()",20000);
+    function refresh()
+    {
+        location.reload(true);
+    }
+</script>
+{% endblock %}

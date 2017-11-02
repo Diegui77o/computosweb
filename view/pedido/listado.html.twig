@@ -131,7 +131,10 @@
 								        </div>
 										
 										{% if ((rol == 1) or (rol == 2)) %}
-											<button formaction="../controller/pedido-modificar-des-obs.php" onclick="return confirm('¿Seguro desea modificar descripción/observación el pedido?')" class="btn btn-primary btn-xs" title="Modificar descripción/observación"><i class="fa fa-pencil" aria-hidden="true"></i> Modificar descripción/observación</button>
+											<button formaction="../controller/pedido-modificar-des-obs.php" onclick="return confirm('¿Seguro desea modificar descripción/observación del pedido?')" class="btn btn-primary btn-xs" title="Modificar descripción/observación"><i class="fa fa-pencil" aria-hidden="true"></i> Modificar descripción/observación</button>
+										{% endif %}
+										{% if (tuplaPedido.nombreEstado == 'Reservado') %}
+											<a target="_blank" href="../controller/pedido-imprimir.php/?idpedido={{tuplaPedido.idpedido}}" onclick="return confirm('¿Seguro desea imprimir pedido?')" class="btn btn-success btn-xs" title="Imprimir"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</a>
 										{% endif %}
 
 								      </div>
