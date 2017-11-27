@@ -1,0 +1,82 @@
+{# Vista utilizada para mostrar video-tutoriales del sistema #}
+{% extends 'layout/base.html.twig' %}
+{% block contenido %}
+<center><h3 class="text-primary">Video-tutoriales</h3>
+<p>Ayudas para que pueda utilizar nuestro sistema.</p>
+</center>
+<hr>
+<div class="container marketing">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="team-member">
+                    <center>
+                        <video controls width="280" height="200">
+                            <source src="../public/video/SolicitarPedido.webm" type="video/webm">
+                            Lo sentimos tu navegador no soporta esté formato de video.
+                        </video>
+                        <h4>¿Cómo solicito un pedido?</h4>
+                        <p class="text-muted">Paso a paso para solicitar un pedido en nuestro sistema.</p>
+                        <br></br>
+                    </center>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="team-member">
+                    <center>
+                        <video controls width="280" height="200">
+                            <source src="../public/video/ConsultarEstadoPedido.webm" type="video/webm">
+                            Lo sentimos tu navegador no soporta esté formato de video.
+                        </video>
+                        <h4>¿Cómo consultar el estado de mi pedido?</h4>
+                        <p class="text-muted">Paso a paso de como consultar el estado de mi pedido.</p>
+                        <br></br>
+
+                    </center>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="team-member">
+                    <center>
+                        <video controls width="280" height="200">
+                            <source src="../public/video/SolicitarReparacion.webm" type="video/webm">
+                            Lo sentimos tu navegador no soporta esté formato de video.
+                        </video>
+                        <h4>¿Cómo solicito una reparación?</h4>
+                        <p class="text-muted">Paso a paso de como solicitar una reparación.</p>
+                        <br></br>
+                </div>
+                </center>
+            </div>
+            <div class="col-sm-6">
+                <div class="team-member">
+                    <center>
+                        <video controls width="280" height="200">
+                            <source src="../public/video/ConsultarEstadoDeReparacion.webm" type="video/webm">
+                            Lo sentimos tu navegador no soporta esté formato de video.
+                        </video>
+                        <h4>¿Cómo saber si mi reparación está lista?</h4>
+                        <p class="text-muted">Paso a paso para consultar es estado de mi reparación.</p>
+                        <br></br>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block menu %}
+	{# Script para submenues #}
+	<script>
+		(function($){
+			$(document).ready(function(){
+				$('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
+					event.preventDefault(); 
+					event.stopPropagation(); 
+					$(this).parent().siblings().removeClass('open');
+					$(this).parent().toggleClass('open');
+				});
+			});
+		})(jQuery);
+	</script>
+{% endblock %}

@@ -9,7 +9,7 @@
 
 <div class="col-lg-12">
     <div class="panel panel-default">
-        <div class="panel-heading"><center><i class="fa fa-shopping-cart" aria-hidden="true"></i> Listado de <b>productos</b></center></div>
+        <div class="panel-heading"><center><i class="fa fa-shopping-cart" aria-hidden="true"></i> Listado de <b>productos {{tituloPanel}}</b></center></div>
         {# /.panel-heading #}
         <div class="panel-body">
 			{% if msjError == true %}
@@ -114,7 +114,10 @@
                     {% endfor %}
                 </tbody>
             </table>
-			<a target="_blank" href="../controller/reporte-productos-listado.php" class="btn btn-success btn-xs"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</a>
+            {# Muestra boton de imprimir solo en el listado de los productos no en el listado de productos sin stock #}
+            {% if tituloPanel != 'sin stock' %}
+				<a target="_blank" href="../controller/reporte-productos-listado.php" class="btn btn-success btn-xs"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</a>
+			{% endif %}
         </div>
         {# /.panel-body #}
     </div>

@@ -1,20 +1,19 @@
 <?php
-// Controlador que muestra el listado de productos sin stock del sistema
+// Controlador que muestra el listado de usuarios deshabilitados del sistema
 require_once 'cargaTwig.php';
 
 session_start();
 if (isset($_SESSION["rol"])) {
     $rol = $_SESSION["rol"];
-    if (($rol == 1) or ($rol == 2)) {
-        include "../model/producto.php";
-        $producto           = new Producto();
-        $listadoDeProductos = $producto->listarProductosSinStock();
-        // Cargo la vista
-        echo $twig->render('producto/listado.html.twig', array(
-            'pagina'             => ' - Listado de productos sin stock',
-            'rol'                => $rol,
-            'listadoDeProductos' => $listadoDeProductos,
-            'tituloPanel'        => 'sin stock',
+    if ($rol == 1) {
+        include "../model/usuario.php";
+        $usuario           = new Usuario();
+        $listadoDeUsuarios = $usuario->listarUsuariosDeshabilitados();
+        // Cargo la vista y le paso el listado de los usuarios deshabilitados del sistema
+        echo $twig->render('usuario/listado.html.twig', array(
+            'pagina'            => ' - Listado de usuarios deshabilitados',
+            'rol'               => $rol,
+            'listadoDeUsuarios' => $listadoDeUsuarios,
         ));
     } else {
         // Cargo la vista error permisos

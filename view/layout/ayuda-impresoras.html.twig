@@ -1,0 +1,66 @@
+{# Vista utilizada para mostrar ayudas para impresoras (Sacar paginas de prueba) #}
+{% extends 'layout/base.html.twig' %}
+{% block contenido %}
+<center><h3 class="text-primary">¿Cómo sacar el total de páginas impresas de mi impresora?</h3></center>
+<br>
+{# div necesario y sin cierre para ajustar footer #}
+<div class="container marketing">
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-2">
+            <img src="../public/img/impresoras/HPM402.jpg" class="img-thumbnail" class="img-responsive" alt="HP M402" height="200" width="200">
+        </div>
+        <div class="col-sm-4">
+        	<h5>HP Laserjet M402</h5>
+            <p>Dirigirse al visor encima de la impresora, con las flechas navegar por los menues de la misma, seleccionar con OK las siguientes opciones: Menú de configuraciones (Informes), luego, estado de consumibles (presionar OK). La impresora automáticamente saca una hoja, donde figura <b>Pag. impresas con este consumible</b>.</p>
+            <p><b>Tóner utilizado: </b>26A</p>
+        </div>
+        <div class="col-sm-2">
+            <img src="../public/img/impresoras/HP2035.jpg" class="img-thumbnail" class="img-responsive" alt="HP M402" height="200" width="200">
+        </div>
+        <div class="col-sm-4">
+        	<h5>HP Laserjet 2035</h5>
+            <p>Dirigirse a los botones situados en la parte superior de la impresora, presionar por unos segundos el botón verde similar a este <span class="text-success"><i class="fa fa-file-o" aria-hidden="true"></i></span> y sola sacará una hoja en la cual figura <b>páginas totales impresas</b>.</p>
+            <p><b>Tóner utilizado: </b>505A/80A</p>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-2">
+            <img src="../public/img/impresoras/HP1006.jpg" class="img-thumbnail" class="img-responsive" alt="HP M402" height="200" width="200">
+        </div>
+        <div class="col-sm-4">
+        	<h5>HP Laserjet 1006</h5>
+            <p>Dirigirse al panel de control de windows, dispositivos e impresoras, seleccionar la impresora, hacer click derecho sobre ella, propiedades, hacer click en la pestaña <b>Acerca de</b> allí podrá ver <b>Recuento de páginas</b></p>
+            <p><b>Tóner utilizado: </b>35A/36A/85A</p>
+        </div>
+        <div class="col-sm-2">
+            <img src="../public/img/impresoras/HP1102.jpg" class="img-thumbnail" class="img-responsive" alt="HP M402" height="200" width="200">
+        </div>
+        <div class="col-sm-4">
+        	<h5>HP Laserjet 1102</h5>
+            <p>Dirigirse al panel de control de windows, dispositivos e impresoras, seleccionar la impresora, hacer click derecho sobre ella, propiedades, hacer click en la pestaña <b>Acerca de</b> allí podrá ver <b>Recuento de páginas</b></p>
+            <p><b>Tóner utilizado: </b>35A/36A/85A</p>
+        </div>
+    </div>
+</div>
+<hr>
+<center><h6><b>¿Por qué es importante sacar cuantas páginas totales se pudo imprimir?</b></h6><p> Porque así podemos hacer un control acerca de cuanto rinde aproximadamente un tóner para comparar marcas y calidades.</p>
+<p><b class="text-primary">Nota: </b>No se olvide de agregar el total de páginas impresas en la descripción del pedido cuando solicita un tóner para su impresora. Muchas gracias!</p></center>
+{% endblock %}
+{% block menu %}
+	{# Script para submenues #}
+	<script>
+		(function($){
+			$(document).ready(function(){
+				$('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
+					event.preventDefault(); 
+					event.stopPropagation(); 
+					$(this).parent().siblings().removeClass('open');
+					$(this).parent().toggleClass('open');
+				});
+			});
+		})(jQuery);
+	</script>
+{% endblock %}

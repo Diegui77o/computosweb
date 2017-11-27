@@ -93,7 +93,7 @@ class PedidoDetalle
             INNER JOIN usuario u ON ped.idusuario=u.id
             INNER JOIN area a ON u.idarea = a.id
             WHERE e.id = 1
-            ORDER BY ped.fecha_alta DESC");
+            ORDER BY ped.fecha_alta DESC, a.nombre, u.usuario, pro.nombre");
         $consulta->execute();
         $datos = $consulta->fetchAll();
         return $datos;
@@ -109,7 +109,7 @@ class PedidoDetalle
             INNER JOIN usuario u ON ped.idusuario=u.id
             INNER JOIN area a ON u.idarea = a.id
             WHERE e.id = 2
-            ORDER BY ped.fecha_alta DESC");
+            ORDER BY ped.fecha_alta DESC, nombreArea");
         $consulta->execute();
         $datos = $consulta->fetchAll();
         return $datos;
@@ -125,7 +125,7 @@ class PedidoDetalle
             INNER JOIN usuario u ON ped.idusuario=u.id
             INNER JOIN area a ON u.idarea = a.id
             WHERE e.id = 3
-            ORDER BY ped.fecha_alta DESC");
+            ORDER BY ped.fecha_alta DESC, nombreArea");
         $consulta->execute();
         $datos = $consulta->fetchAll();
         return $datos;
@@ -233,6 +233,22 @@ class PedidoDetalle
                 ");
         $consulta->bindParam(1, $idusuario);
         $consulta->bindParam(2, $fecha);
+        $consulta->execute();
+        $datos = $consulta->fetchAll();
+        return $datos;
+    }
+
+    public function pedidosEntreFechasPorArea($fecha1, $fecha2)
+    {
+        $consulta = $this->conexion->prepare("
+            SELECT a.nombre AS area, pro.nombre AS producto, pro.marca AS marca, COUNT(p.idusuario) AS total
+            FROM pedido p, usuario u, area a, producto pro, pedido_detalle pd
+            WHERE u.idarea = a.id AND p.idusuario = u.id AND pd.idpedido = p.id
+            AND pd.idproducto = pro.id AND p.idestado_pedido = 2 AND p.fecha_alta BETWEEN p.fecha_alta=? AND p.fecha_alta=?
+            GROUP BY u.idarea
+            ORDER BY total DESC, u.idarea");
+        $consulta->bindParam(1, $fecha1);
+        $consulta->bindParam(2, $fecha2);
         $consulta->execute();
         $datos = $consulta->fetchAll();
         return $datos;
