@@ -253,4 +253,16 @@ class PedidoDetalle
         $datos = $consulta->fetchAll();
         return $datos;
     }
+
+    // Total de productos gastados hasta el momento
+    public function totalProductosGastados(){
+        $consulta = $this->conexion->prepare("
+            SELECT p.nombre AS nombreProducto, p.marca AS marcaProducto, SUM(pd.cantidad) AS TOTAL
+            FROM pedido_detalle pd, producto p, pedido ped
+            WHERE (ped.idestado_pedido = 2) AND (pd.idproducto = p.id) AND (ped.id = pd.idpedido)
+            GROUP BY pd.idproducto");
+            $consulta->execute();
+            $datos = $consulta->fetchAll();
+            return $datos;
+    }
 }

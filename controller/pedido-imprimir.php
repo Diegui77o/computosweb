@@ -1,6 +1,7 @@
 <?php
 // Controlador que imprime un listado de los pedidos del usuario del día en estado reservados
 require_once 'cargaTwig.php';
+
 session_start();
 if (isset($_SESSION["rol"])) {
     $rol = $_SESSION["rol"];

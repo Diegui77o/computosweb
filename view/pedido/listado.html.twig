@@ -155,7 +155,9 @@
                     {% endfor %}
                 </tbody>
             </table>
-
+            {% if ((tituloPanel == 'Entregados') and (rol == 1)) %}
+				<a target="_blank" href="../controller/reporte-pedidos-entregados-listado.php" class="btn btn-success btn-xs"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</a>
+			{% endif %}
         </div>
         {# /.panel-body #}
     </div>
