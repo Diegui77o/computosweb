@@ -19,7 +19,7 @@ if (isset($_SESSION["rol"])){
 
 		$pdf->AddPage ();
 		foreach ( $listadoDePedidos as $fila => $valor ) {
-			$pdf->Text ( 5, $pdf->GetY (), utf8_decode ( $listadoDePedidos [$fila] [10]).", " . utf8_decode ($listadoDePedidos [$fila] [11] ));
+			$pdf->Text ( 5, $pdf->GetY (), utf8_decode ( $listadoDePedidos [$fila] [11]).", " . utf8_decode ($listadoDePedidos [$fila] [10] ));
 			$pdf->Text ( 52, $pdf->GetY (), utf8_decode ( $listadoDePedidos [$fila] [15] ));
 			$pdf->Text(95, $pdf->GetY(), utf8_decode($listadoDePedidos[$fila][4] . " (" . $listadoDePedidos[$fila][5]) . ")");
 			$pdf->Text ( 165, $pdf->GetY (), utf8_decode ( $listadoDePedidos [$fila] [3] ));
