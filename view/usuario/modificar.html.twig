@@ -64,7 +64,7 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label class="control-label">Teléfono *</label>
-                  <input class="form-control" type="text" name="telefono" placeholder="Ingrese teléfono del trabajo" data-validation="number" data-validation-allowing="range[1;9999999999]" value="{{usuarioEncontrado.telefono}}">
+                  <input class="form-control" type="text" name="telefono" placeholder="Ingrese teléfono del trabajo" data-validation="number length" data-validation-length="3-20" data-validation-optional-if-answered="home-phone, work-phone">
                 </div>
               </div>
             </div>
