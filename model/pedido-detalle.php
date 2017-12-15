@@ -255,14 +255,41 @@ class PedidoDetalle
     }
 
     // Total de productos gastados hasta el momento
-    public function totalProductosGastados(){
+    public function totalProductosGastados()
+    {
         $consulta = $this->conexion->prepare("
             SELECT p.nombre AS nombreProducto, p.marca AS marcaProducto, SUM(pd.cantidad) AS TOTAL
             FROM pedido_detalle pd, producto p, pedido ped
             WHERE (ped.idestado_pedido = 2) AND (pd.idproducto = p.id) AND (ped.id = pd.idpedido)
             GROUP BY pd.idproducto");
-            $consulta->execute();
-            $datos = $consulta->fetchAll();
-            return $datos;
+        $consulta->execute();
+        $datos = $consulta->fetchAll();
+        return $datos;
+    }
+    // Cantidad de pedidos totales de cada area
+    public function totalPedidosPorArea()
+    {
+        $consulta = $this->conexion->prepare("
+            SELECT a.nombre AS area,pro.nombre, pro.marca, SUM(pd.cantidad) AS Cantidad
+            FROM pedido_detalle pd, producto pro, pedido p, usuario u, area a
+            WHERE pd.idproducto = pro.id AND p.id = pd.idpedido AND p.idusuario = u.id AND u.idarea=a.id AND p.idestado_pedido=2
+            GROUP BY a.id, pd.idproducto
+            ORDER BY pro.nombre, Cantidad DESC, area");
+        $consulta->execute();
+        $datos = $consulta->fetchAll();
+        return $datos;
+    }
+    // Cantidad de pedidos totales de cada producto de cada usuario del sistema
+    public function totalPedidosPorUsuario()
+    {
+        $consulta = $this->conexion->prepare("
+            SELECT u.nombre , u.apellido, a.nombre AS area,pro.nombre, pro.marca, SUM(pd.cantidad) AS Cantidad
+            FROM pedido_detalle pd, producto pro, pedido p, usuario u, area a
+            WHERE pd.idproducto = pro.id AND p.id = pd.idpedido AND p.idusuario = u.id AND u.idarea=a.id AND p.idestado_pedido=2
+            GROUP BY p.idusuario, pd.idproducto
+            ORDER BY Cantidad DESC, pro.nombre, area, u.nombre, u.apellido");
+        $consulta->execute();
+        $datos = $consulta->fetchAll();
+        return $datos;
     }
 }
